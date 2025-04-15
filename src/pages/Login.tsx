@@ -32,7 +32,7 @@ const Login = () => {
             )
          );
       } catch (error) {
-         setError("Login gagal. Silakan coba lagi."); // gunakan useState kalau mau tampilkan error
+         setError("Login gagal. Silakan coba lagi.");
       }
    };
 

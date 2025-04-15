@@ -3,9 +3,20 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 
 export default function GuestOnlyRoute({ children }: { children?: React.ReactNode }) {
-   const { token } = useSelector((state: RootState) => state.auth);
+   const { token, role } = useSelector((state: RootState) => state.auth);
 
-   if (!token) return <Navigate to='/sigin' replace />;
-
+   if (token) {
+      switch (role) {
+         case "MANAGER":
+            return <Navigate to="/dashboard/manager" replace />;
+         case "PROCUREMENT":
+            return <Navigate to="/dashboard/procurement" replace />;
+         case "ADMIN":
+            return <Navigate to="/dashboard/admin" replace />;
+         default:
+            return <Navigate to="/" replace />;
+      }
+   }
+   
    return children || <Outlet />;
 }

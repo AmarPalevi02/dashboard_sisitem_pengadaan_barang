@@ -8,12 +8,6 @@ interface AuthState {
    isAuthenticated: boolean;
 }
 
-// let initialState: AuthState = {
-//    token: null,
-//    name: null,
-//    role: null,
-//    isAuthenticated: false,
-// }
 
 const initialState: AuthState = {
    token: Cookies.get("token") || null,
@@ -21,8 +15,6 @@ const initialState: AuthState = {
    role: Cookies.get("role") || null,
    isAuthenticated: !!Cookies.get("token")
 };
-
-
 
 
 export default function authReducer(state = initialState, action: any): AuthState {
