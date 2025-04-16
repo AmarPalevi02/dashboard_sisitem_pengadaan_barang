@@ -1,6 +1,7 @@
 import { configs } from '@/config'
 import axios from 'axios'
 import Cookies from 'js-cookie'
+import { handleApiError } from './handleApiError'
 
 export const getDatas = async (url: string) => {
    const token = Cookies.get("token")
@@ -12,7 +13,7 @@ export const getDatas = async (url: string) => {
       })
       return response
    } catch (error) {
-
+      throw handleApiError(error)
    }
 }
 
@@ -32,6 +33,6 @@ export const postData = async (
 
       return response
    } catch (error) {
-
+      throw handleApiError(error)
    }
 }
