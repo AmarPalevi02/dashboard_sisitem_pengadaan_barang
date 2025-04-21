@@ -4,17 +4,24 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { Input } from '@/components/ui/input'
 import { postData } from '@/lib/fetch'
 import { userLogin } from '@/redux/auth/actions'
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { useForm } from 'react-hook-form'
 import { useDispatch } from 'react-redux'
 import { clearAlert, setAlert } from '@/redux/alert/actions'
 import { useSelector } from 'react-redux'
 import { RootState } from '@/redux/store'
-import AlertContex from '@/components/AlertContex'
+import AlertContex from '@/components/AlertContex';
+import { FaRegEyeSlash } from "react-icons/fa6";
+import { TbEyeSearch } from "react-icons/tb";
+import Cookies from 'js-cookie'
+import { useNavigate } from 'react-router-dom'
+
 
 const Login = () => {
    const dispatch = useDispatch()
    const { message, alertType } = useSelector((state: RootState) => state.alert)
+   const navigate = useNavigate()
+   const [showPassword, setShowPassword] = useState<boolean>(false)
    const form = useForm({
       defaultValues: {
          email: '',
@@ -46,6 +53,14 @@ const Login = () => {
             dispatch(clearAlert());
          }, 4000);
          return () => clearTimeout(timer);
+      }
+
+      const token = Cookies.get("token")
+      const role = Cookies.get("role")
+
+      if (token) {
+         const path = role ? `/dashboard/${role.toLowerCase()}` : "/";
+         navigate(path, { replace: true });
       }
    }, [message]);
 
@@ -84,14 +99,28 @@ const Login = () => {
                            <FormItem>
                               <FormLabel>Password</FormLabel>
                               <FormControl>
-                                 <Input type="password" placeholder="******" {...field} />
+                                 <div className="relative">
+                                    <Input
+                                       placeholder="******"
+                                       type={showPassword ? "text" : "password"}
+                                       {...field}
+                                       className="pr-10"
+                                    />
+                                    <button
+                                       type="button"
+                                       onClick={() => setShowPassword((prev) => !prev)}
+                                       className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-black"
+                                    >
+                                       {showPassword ? <TbEyeSearch size={20} /> : <FaRegEyeSlash size={20} />}
+                                    </button>
+                                 </div>
                               </FormControl>
                               <FormMessage />
                            </FormItem>
                         )}
                      />
 
-                     <Button type="submit" className="w-full">
+                     <Button type="submit" className="w-full shadow-md">
                         Login
                      </Button>
                   </form>
