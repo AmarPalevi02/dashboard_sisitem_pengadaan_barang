@@ -9,9 +9,9 @@ function listener() {
 
    if (currentAuth !== previousAuth) {
       if (currentAuth.isAuthenticated) {
-         Cookies.set("token", currentAuth.token || "", { expires: 1 / 720 });
-         Cookies.set("name", currentAuth.name || "", { expires: 1 / 720 });
-         Cookies.set("role", currentAuth.role || "", { expires: 1 / 720 });
+         Cookies.set("token", currentAuth.token || "", { expires: 7 / 24 });
+         Cookies.set("name", currentAuth.name || "", { expires: 7 / 24 });
+         Cookies.set("role", currentAuth.role || "", { expires: 7 / 24 });
       } else {
          Cookies.remove("token");
          Cookies.remove("name");

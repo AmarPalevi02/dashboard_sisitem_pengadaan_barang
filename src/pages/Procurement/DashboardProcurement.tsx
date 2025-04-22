@@ -1,4 +1,5 @@
 import AlertContex from '@/components/AlertContex'
+import BSidebar from '@/components/BSidebar'
 import { clearAlert } from '@/redux/alert/actions'
 import { RootState } from '@/redux/store'
 import React, { useEffect } from 'react'
@@ -19,13 +20,16 @@ const DashboardProcurement = () => {
       }
    }, [message])
    return (
-      <div>
-         {message && (
-            <AlertContex alertType={`${alertType}`} message={message} />
-         )}
-         <p>
-            DashboardProcurement
-         </p>
+      <div className="flex h-screen">
+         <BSidebar />
+         <div className="flex-1 p-6 bg-blue-100">
+            {message && (
+               <AlertContex alertType={`${alertType}`} message={message} />
+            )}
+            <p>
+               DashboardProcurement
+            </p>
+         </div>
       </div>
    )
 }
