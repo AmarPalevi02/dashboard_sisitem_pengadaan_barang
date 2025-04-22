@@ -1,4 +1,4 @@
-import { USER_LOGIN } from "./constans";
+import { USER_LOGIN, USER_LOGOUT } from "./constans";
 
 export const userLogin = (
    token: string,
@@ -11,3 +11,9 @@ export const userLogin = (
       payload: { token, name, role, isAuthenticated }
    };
 };
+
+export const userLogout = () => {
+   return {
+      type: USER_LOGOUT
+   }
+}

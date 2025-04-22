@@ -1,4 +1,4 @@
-import { USER_LOGIN } from "./constans";
+import { USER_LOGIN, USER_LOGOUT } from "./constans";
 import Cookies from "js-cookie";
 
 interface AuthState {
@@ -27,6 +27,8 @@ export default function authReducer(state = initialState, action: any): AuthStat
             role: action.payload?.role ?? null,
             isAuthenticated: true
          }
+      case USER_LOGOUT:
+         return initialState
       default:
          return state
    }

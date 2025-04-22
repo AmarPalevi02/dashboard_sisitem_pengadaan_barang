@@ -1,13 +1,19 @@
 import { useState } from 'react'
-import { LayoutDashboard, LogOut, Menu } from 'lucide-react'
+import { LogOut, Menu } from 'lucide-react'
 import { useSelector } from 'react-redux'
 import { RootState } from '@/redux/store'
 import { MenuItems, Role, menuConfigs } from '@/config/menuConfig'
+import Cookies from 'js-cookie'
+import { useNavigate } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
+import { userLogout } from '@/redux/auth/actions'
 
 const BSidebar = () => {
+   const navigate = useNavigate()
+   const dispatch = useDispatch()
    const [collapsed, setCollapsed] = useState(false)
    const toggleSidebar = () => setCollapsed(!collapsed)
-   const { role } = useSelector((state: RootState) => state.auth)
+   const { role, name } = useSelector((state: RootState) => state.auth)
 
    const isValidRole = (role: any): role is Role => {
       return ['ADMIN', 'MANAGER', 'PROCUREMENT', 'EMPLOYEE'].includes(role)
@@ -15,6 +21,14 @@ const BSidebar = () => {
 
 
    const menu: MenuItems[] = isValidRole(role) ? menuConfigs[role] : []
+
+   const handleLogout = () => {
+      Cookies.remove("name")
+      Cookies.remove("token")
+      Cookies.remove("role")
+      dispatch(userLogout())
+      navigate('/signin')
+   }
 
    return (
       <div
@@ -25,7 +39,7 @@ const BSidebar = () => {
          <div className="flex items-center justify-between px-4 py-3 border-b">
             <div className="flex items-center gap-3">
 
-               {!collapsed && <span className="font-semibold">John Doe</span>}
+               {!collapsed && <span className="font-semibold">Hello {name}</span>}
             </div>
             <button onClick={toggleSidebar}>
                <Menu className="w-5 h-5" />
@@ -48,7 +62,7 @@ const BSidebar = () => {
 
          {/* Footer */}
          <div className="px-4 py-3 border-t">
-            <button className="flex items-center gap-3 text-sm text-gray-700 hover:text-red-600">
+            <button onClick={handleLogout} className="flex items-center gap-3 text-sm text-gray-700 hover:text-red-600">
                <LogOut className="w-5 h-5" />
                {!collapsed && <span>Logout</span>}
             </button>
