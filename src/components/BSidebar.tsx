@@ -19,7 +19,6 @@ const BSidebar = () => {
       return ['ADMIN', 'MANAGER', 'PROCUREMENT', 'EMPLOYEE'].includes(role)
    }
 
-
    const menu: MenuItems[] = isValidRole(role) ? menuConfigs[role] : []
 
    const handleLogout = () => {
