@@ -7,19 +7,16 @@ import { userLogin } from '@/redux/auth/actions'
 import { useEffect, useState } from "react"
 import { useForm } from 'react-hook-form'
 import { useDispatch } from 'react-redux'
-import { clearAlert, setAlert } from '@/redux/alert/actions'
-import { useSelector } from 'react-redux'
-import { RootState } from '@/redux/store'
-import AlertContex from '@/components/AlertContex';
+import { setAlert } from '@/redux/alert/actions'
 import { FaRegEyeSlash } from "react-icons/fa6";
 import { TbEyeSearch } from "react-icons/tb";
 import Cookies from 'js-cookie'
 import { useNavigate } from 'react-router-dom'
+import GlobalAlert from '@/components/common/GlobalAlert'
 
 
 const Login = () => {
    const dispatch = useDispatch()
-   const { message, alertType } = useSelector((state: RootState) => state.alert)
    const navigate = useNavigate()
    const [showPassword, setShowPassword] = useState<boolean>(false)
    const form = useForm({
@@ -48,12 +45,6 @@ const Login = () => {
    };
 
    useEffect(() => {
-      if (message) {
-         const timer = setTimeout(() => {
-            dispatch(clearAlert());
-         }, 4000);
-         return () => clearTimeout(timer);
-      }
 
       const token = Cookies.get("token")
       const role = Cookies.get("role")
@@ -62,13 +53,11 @@ const Login = () => {
          const path = role ? `/dashboard/${role.toLowerCase()}` : "/";
          navigate(path, { replace: true });
       }
-   }, [message]);
+   }, []);
 
    return (
       <div className="flex justify-center items-center min-h-screen bg-gray-100">
-         {message && (
-            <AlertContex alertType={`${alertType}`} message={message} />
-         )}
+         <GlobalAlert />
          <Card className="w-full max-w-md">
             <CardHeader className="text-center">
                <CardTitle className="text-2xl">Silakan Login 👋</CardTitle>
