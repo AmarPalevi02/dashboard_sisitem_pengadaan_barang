@@ -14,12 +14,12 @@ export const menuConfigs: Record<Role, MenuItems[]> = {
    ADMIN: [
       {
          label: "Dashboard",
-         icon: <LuLayoutDashboard />,
+         icon: <LuLayoutDashboard className="w-8 h-8 font-bold" />,
          path: "/"
       },
       {
          label: "Tambah akun",
-         icon: <FiUserPlus />,
+         icon: <FiUserPlus className="w-8 h-8 font-bold" />,
          path: "/createacount"
       }
    ],

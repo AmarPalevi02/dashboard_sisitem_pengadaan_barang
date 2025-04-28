@@ -8,8 +8,7 @@ import { useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { userLogout } from '@/redux/auth/actions'
 import { IoIosArrowForward } from "react-icons/io";
-import { IoCloseSharp } from "react-icons/io5";
-
+import { fimaleLogo } from '@/assets'
 
 const BSidebar = () => {
    const navigate = useNavigate()
@@ -38,16 +37,27 @@ const BSidebar = () => {
             } h-screen bg-white transition-all duration-300 flex flex-col relative`}
       >
          {/* Header */}
-         <div className="flex items-center justify-between px-4 py-3">
-            <div className="flex items-center gap-3">
+         <div className="w-full flex justify-center pt-3">
+            {collapsed ? (
+               <div className="w-12 h-12 bg-gray-500 rounded-full">
+                  <img src={fimaleLogo} alt="" className='object-cover flex w-full rounded-full' />
+               </div>
+            ) : (
+               <div className="w-full flex flex-col justify-center items-center text-center">
+                  <div className="w-16 h-16 bg-gray-500 rounded-full">
+                     <img src={fimaleLogo} alt="" className='object-cover flex w-full rounded-full' />
+                  </div>
+                  <span className="font-semibold w-full">Hello {name}</span>
+               </div>
+            )}
+         </div>
 
-               {!collapsed && <span className="font-semibold">Hello {name}</span>}
-            </div>
+         <div className="flex items-center justify-between px-4 py-3">
             <button onClick={toggleSidebar}>
                {collapsed ?
-                  < IoIosArrowForward className="w-5 h-5 absolute right-[-10px]" />
+                  < IoIosArrowForward className="w-7 h-7 absolute top-6 right-[-15px] hover:cursor-pointer" />
                   :
-                  < IoIosArrowForward className="w-5 h-5 absolute right-[-10px] rotate-180" />
+                  < IoIosArrowForward className="w-7 h-7 absolute top-6 right-[-13px] rotate-180 hover:cursor-pointer" />
                }
             </button>
          </div>
@@ -58,18 +68,17 @@ const BSidebar = () => {
                <a
                   key={item.label}
                   href={item.path}
-                  className={`flex items-center px-3 py-2 rounded hover:bg-blue-100 text-gray-700 text-sm
-        ${collapsed ? 'justify-center' : 'gap-3'}`}
+                  className={`flex items-center px-3 py-2 rounded hover:bg-blue-100 text-gray-700 text-sm ${collapsed ? 'justify-center' : 'gap-3'}`}
                >
-                  <span className="w-5 h-5 flex items-center justify-center">{item.icon}</span>
+                  <span className="w-5 h-5 flex items-center justify-center font-bold">{item.icon}</span>
                   {!collapsed && <span>{item.label}</span>}
                </a>
             ))}
          </nav>
 
          {/* Footer */}
-         <div className="px-4 py-3">
-            <button onClick={handleLogout} className="flex items-center gap-3 text-sm text-gray-700 hover:text-red-600">
+         <div className="px-4 py-3 ">
+            <button onClick={handleLogout} className="flex items-center gap-3 text-sm text-gray-700 hover:cursor-pointer">
                <LogOut className="w-5 h-5" />
                {!collapsed && <span>Logout</span>}
             </button>
