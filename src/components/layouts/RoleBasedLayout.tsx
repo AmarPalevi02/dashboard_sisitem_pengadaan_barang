@@ -7,7 +7,7 @@ export function RoleBasedLayout() {
 
    switch (role) {
       case "MANAGER":
-         return <Navigate to="/dashboard/manager" replace />;
+         return <Navigate to="/dashboard/manager/*" replace />;
       case "PROCUREMENT":
          return <Navigate to="/dashboard/procurement" replace />;
       case "ADMIN":

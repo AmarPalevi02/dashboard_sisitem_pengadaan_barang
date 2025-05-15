@@ -3,7 +3,7 @@ import React from 'react'
 type PropsCardData = {
    title: string;
    count: number | null;
-   icon: string;
+   icon: React.ReactNode;
    bgColor: string;
 }
 
