@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom"
-
+import { IoIosArrowForward } from "react-icons/io";
 
 type breadcrumbItem = {
    label: string
@@ -23,7 +23,7 @@ const Breadcrumb = ({ items }: BreadcrumbsProps) => {
                      >
                         {item.label}
                      </Link>
-                     <span className="mx-2">/</span>
+                     <span className="ml-2"><IoIosArrowForward /></span>
                   </>
                ) : (
                   <span className="text-gray-900 font-medium">{item.label}</span>

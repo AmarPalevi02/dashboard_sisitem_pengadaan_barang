@@ -14,6 +14,7 @@ interface Managers {
 const ManagerAll = () => {
    const [manager, setManager] = useState<Managers[]>([])
    const columns: string[] = ["No", "Namae", "Email", "Aksi"]
+
    const handleEdit = (id: number | string) => {
       alert(`Edit user with ID: ${id}`);
    };
@@ -54,7 +55,7 @@ const ManagerAll = () => {
             <div className="bg-white shadow-lg rounded-xl overflow-hidden border border-gray-100">
                {manager.length === 0 ? (
                   <div className="p-6 text-center text-gray-500">
-                     <p className="text-lg">No users found.</p>
+                     <p className="text-lg">No managers found.</p>
                      <p className="text-sm mt-2">Add a new user to get started!</p>
                   </div>
                ) : (
