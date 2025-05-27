@@ -55,7 +55,7 @@ const EmployeesAll = () => {
             <div className="bg-white shadow-lg rounded-xl overflow-hidden border border-gray-100">
                {employe.length === 0 ? (
                   <div className="p-6 text-center text-gray-500">
-                     <p className="text-lg">No managers found.</p>
+                     <p className="text-lg">No employes found.</p>
                      <p className="text-sm mt-2">Add a new user to get started!</p>
                   </div>
                ) : (
