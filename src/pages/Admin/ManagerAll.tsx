@@ -2,18 +2,19 @@ import Breadcrumb from '@/components/Breadcrumb';
 import TableBody from '@/components/TableBody';
 import TableHeader from '@/components/TableHeader';
 import TitlePage from '@/components/TitlePage'
-import { getDatas } from '@/lib/fetch';
-import { useEffect, useState } from 'react'
+import { getAllManagerAction, responseApi } from '@/redux/admin/action';
+import { RootState } from '@/redux/store';
+import { useEffect } from 'react'
+import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
-interface Managers {
-   id: string | number,
-   name: string,
-   email: string
-}
+type Managers = responseApi;
 
 const ManagerAll = () => {
-   const [manager, setManager] = useState<Managers[]>([])
    const columns: string[] = ["No", "Namae", "Email", "Aksi"]
+
+   const dispatch = useDispatch()
+   const { managers } = useSelector((state: RootState) => state.admin)
 
    const handleEdit = (id: number | string) => {
       alert(`Edit user with ID: ${id}`);
@@ -24,15 +25,11 @@ const ManagerAll = () => {
       }
    };
 
-   const handleDatasMananger = async () => {
-      const managers = await getDatas('admin/datasmanager')
-      setManager(managers.data.data)
-   }
-
    useEffect(() => {
-      handleDatasMananger()
-   }, [])
+      dispatch(getAllManagerAction())
+   }, [dispatch])
 
+   console.log(managers)
    const randerRowManager = (manager: Managers, index: number) => (
       <>
          <td className="px-6 py-4 font-medium text-gray-900">{index + 1}</td>
@@ -46,29 +43,28 @@ const ManagerAll = () => {
       { label: 'Managers', link: '/dashboard/admin/managers' },
    ];
 
-   console.log(manager)
    return (
       <div>
          <TitlePage title='Manager' />
          <div className="container mx-auto p-6 max-w-6xl">
             <Breadcrumb items={breadcrumbItems} />
             <div className="bg-white shadow-lg rounded-xl overflow-hidden border border-gray-100">
-               {manager.length === 0 ? (
-                  <div className="p-6 text-center text-gray-500">
-                     <p className="text-lg">No managers found.</p>
-                     <p className="text-sm mt-2">Add a new user to get started!</p>
-                  </div>
-               ) : (
+               {Array.isArray(managers) && managers[0] ? (
                   <div className="overflow-x-auto">
                      <table className="w-full text-sm text-left text-gray-600">
                         <TableHeader columns={columns} />
                         <TableBody
-                           data={manager}
+                           data={managers}
                            renderRow={randerRowManager}
                            handleDelete={handleDelete}
                            handleEdit={handleEdit}
                         />
                      </table>
+                  </div>
+               ) : (
+                  <div className="p-6 text-center text-gray-500">
+                     <p className="text-lg">No managers found.</p>
+                     <p className="text-sm mt-2">Add a new user to get started!</p>
                   </div>
                )}
             </div>

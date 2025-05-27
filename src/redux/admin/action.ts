@@ -10,11 +10,30 @@ import {
    FETCH_COUNT_EMPLOYEE_ERROR,
    FETCH_COUNT_MANAGER_ERROR,
    FETCH_COUNT_PROCUREMENT_ERROR,
-   FETCHING_COUNT_VENDOR_ERROR
+   FETCHING_COUNT_VENDOR_ERROR,
+   DELETE_VENDOR_ERROR,
+   DELETE_VENDOR_SUCCESS,
+   DELETING_VENDOR,
+   GET_ALL_DATA_MANAGER,
+   GET_ALL_DATA_MANAGER_SUCCESS,
+   GET_ALL_DATA_MANAGER_ERROR,
+
 } from "./constans";
-import { getDatas } from "@/lib/fetch";
+import { deleteData, getDatas } from "@/lib/fetch";
 import { Dispatch } from 'redux';
 
+export type responseApi = {
+   id: string;
+   name: string;
+   email: string;
+}
+
+export interface ApiResponse {
+   data: responseApi[]
+}
+
+
+// ================================ FETCHING COUNT DATA =====================================
 export const statrFetchingCountManager = () => {
    return {
       type: FETCHING_COUNT_MANAGER
@@ -155,6 +174,80 @@ export const fetchingVendor = () => {
          )
       } catch (error: any) {
          dispatch(errorFetchingVendor({ error: error.message || 'Failed to fetch managers' }))
+      }
+   }
+}
+
+// =========================== GET ALL DATAS ====================================
+export const getAllManager = () => {
+   return {
+      type: GET_ALL_DATA_MANAGER
+   }
+}
+
+export const getAllManagerSuccess = (response: ApiResponse) => {
+   return {
+      type: GET_ALL_DATA_MANAGER_SUCCESS,
+      managers: response
+   }
+}
+
+export const getAllManageError = ({ error }: { error: string }) => {
+   return {
+      type: GET_ALL_DATA_MANAGER_ERROR,
+      error
+   }
+}
+
+export const getAllManagerAction = () => {
+   return async (dispatch: Dispatch) => {
+      dispatch(getAllManager())
+
+      try {
+         const res = await getDatas('admin/datasmanager')
+
+         dispatch(
+            getAllManagerSuccess(res.data.data)
+         )
+      } catch (error: any) {
+         dispatch(getAllManageError({ error: error.message || 'Failed to fetch managers' }))
+      }
+   }
+}
+
+
+// ============================ DELETED DATA =====================================
+export const deleteVendor = () => {
+   return {
+      type: DELETING_VENDOR
+   }
+}
+
+export const deleteVendorSuccess = ({ vendorId }: { vendorId: string | number }) => {
+   return {
+      type: DELETE_VENDOR_SUCCESS,
+      vendorId
+   }
+}
+
+export const deleteVendorError = ({ error }: { error: string }) => {
+   return {
+      type: DELETE_VENDOR_ERROR,
+      error
+   }
+}
+
+export const deleteVendorAction = (vendorId: string | number) => {
+   return async (dispatch: Dispatch) => {
+      dispatch(deleteVendor())
+
+      try {
+         const res = await deleteData(`admin/vendor/${vendorId}`)
+         dispatch(
+            deleteVendorSuccess(res.data.message)
+         )
+      } catch (error: any) {
+         dispatch(deleteVendorError({ error: error.message || 'Failed to fetch managers' }))
       }
    }
 }

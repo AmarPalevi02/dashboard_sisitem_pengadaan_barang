@@ -36,3 +36,19 @@ export const postData = async (
       throw handleApiError(error)
    }
 }
+
+export const deleteData = async (url: string) => {
+   const token = Cookies.get("token")
+   try {
+      const response = await axios.delete(`${configs.base_url}/${url}`, {
+         headers: {
+            Authorization: `Bearer ${token}`,
+         }
+      })
+
+      return response
+
+   } catch (error) {
+      throw handleApiError(error)
+   }
+}

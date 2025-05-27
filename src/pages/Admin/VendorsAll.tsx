@@ -2,8 +2,12 @@ import Breadcrumb from '@/components/Breadcrumb'
 import TableBody from '@/components/TableBody'
 import TableHeader from '@/components/TableHeader'
 import TitlePage from '@/components/TitlePage'
-import { getDatas } from '@/lib/fetch'
+import { deleteData, getDatas } from '@/lib/fetch'
+import { deleteVendorAction } from '@/redux/admin/action'
+import { RootState } from '@/redux/store'
 import { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 
 type Vendors = {
    id: string | number,
@@ -15,6 +19,9 @@ type Vendors = {
 
 const VendorsAll = () => {
    const [vendor, setVendor] = useState<Vendors[]>([])
+   const dispatch = useDispatch()
+   const { deletedVendor } = useSelector((state: RootState) => state.admin)
+   
    const columns: string[] = ["No", "Namae", "Email", "phone", "address", "Aksi"]
 
    const handleEdit = (id: number | string) => {
@@ -22,8 +29,7 @@ const VendorsAll = () => {
    };
 
    const handleDelete = (id: number | string) => {
-      if (confirm('Are you sure you want to delete this user?')) {
-      }
+      dispatch(deleteVendorAction(id))
    };
 
 
@@ -51,6 +57,10 @@ const VendorsAll = () => {
       { label: 'Dashboard', link: '/dashboard/admin' },
       { label: 'Managers', link: '/dashboard/admin/vendors' },
    ];
+
+   useEffect(() => {
+
+   }, [])
 
    return (
       <div>
