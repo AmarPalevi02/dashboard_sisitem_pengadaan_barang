@@ -17,19 +17,48 @@ import {
    GET_ALL_DATA_MANAGER,
    GET_ALL_DATA_MANAGER_SUCCESS,
    GET_ALL_DATA_MANAGER_ERROR,
+   GET_ALL_PROCUREMENT,
+   GET_ALL_PROCUREMENT_SUCCESS,
+   GET_ALL_PROCUREMENT_ERROR,
+   GET_ALL_EMPLOYEE,
+   GET_ALL_EMPLOYEE_SUCCESS,
+   GET_ALL_EMPLOYEE_ERROR,
+   GET_ALL_VENDOR,
+   GET_ALL_VENDOR_SUCCESS,
+   GET_ALL_VENDOR_ERROR,
 
 } from "./constans";
 import { deleteData, getDatas } from "@/lib/fetch";
 import { Dispatch } from 'redux';
 
-export type responseApi = {
+export type responseApiManager = {
    id: string;
    name: string;
    email: string;
 }
 
+export type responseApiProcurement = {
+   id: string;
+   name: string;
+   email: string;
+}
+
+export type responseApiEmploye = {
+   id: string;
+   name: string;
+   email: string;
+}
+
+export type responseApiVendor = {
+   id: string;
+   name: string;
+   email: string;
+   phone: string;
+   address: string
+}
+
 export interface ApiResponse {
-   data: responseApi[]
+   data: responseApiManager[] | responseApiProcurement[] | responseApiEmploye[] | responseApiEmploye[]
 }
 
 
@@ -215,6 +244,110 @@ export const getAllManagerAction = () => {
    }
 }
 
+
+export const getAllProcurement = () => {
+   return {
+      type: GET_ALL_PROCUREMENT
+   }
+}
+
+export const getAllProcurementSuccess = (response: ApiResponse) => {
+   return {
+      type: GET_ALL_PROCUREMENT_SUCCESS,
+      procurements: response
+   }
+}
+
+export const getAllProcurementError = ({ error }: { error: string }) => {
+   return {
+      type: GET_ALL_PROCUREMENT_ERROR,
+      error
+   }
+}
+
+export const getAllProcurementAction = () => {
+   return async (dispatch: Dispatch) => {
+      dispatch(getAllProcurement())
+
+      try {
+         const res = await getDatas('admin/datasprocurements')
+
+         dispatch(
+            getAllProcurementSuccess(res.data.data)
+         )
+      } catch (error: any) {
+         dispatch(getAllProcurementError({ error: error.message || 'Failed to fetch managers' }))
+      }
+   }
+}
+
+export const getAllEmploye = () => {
+   return {
+      type: GET_ALL_EMPLOYEE
+   }
+}
+
+export const getAllEmployeSuccess = (response: ApiResponse) => {
+   return {
+      type: GET_ALL_EMPLOYEE_SUCCESS,
+      employes: response
+   }
+}
+
+export const getAllEmployeError = ({ error }: { error: string }) => {
+   return {
+      type: GET_ALL_EMPLOYEE_ERROR,
+      error
+   }
+}
+
+export const getAllEmployeAction = () => {
+   return async (dispatch: Dispatch) => {
+      dispatch(getAllEmploye())
+
+      try {
+         const res = await getDatas('admin/datasEmployee')
+
+         dispatch(getAllEmployeSuccess(res.data.data))
+      } catch (error: any) {
+         dispatch(getAllEmployeError({ error: error.message || 'Failed to fetch managers' }))
+      }
+   }
+}
+
+export const getAllVendor = () => {
+   return {
+      type: GET_ALL_VENDOR
+   }
+}
+
+export const getAllVendorSuccess = (response: ApiResponse) => {
+   return {
+      type: GET_ALL_VENDOR_SUCCESS,
+      vendors: response
+   }
+}
+
+export const getAllVendorError = ({ error }: { error: string }) => {
+   return {
+      type: GET_ALL_VENDOR_ERROR,
+      error
+   }
+}
+
+export const getAllVendorAction = () => {
+   return async (dispatch: Dispatch) => {
+      dispatch(getAllVendor())
+
+      try {
+         const res = await getDatas('admin/vendor')
+
+         dispatch(getAllVendorSuccess(res.data.data))
+      } catch (error: any) {
+         dispatch(getAllVendorError({ error: error.message || 'Failed to fetch vendor' }))
+      }
+   }
+}
 
 // ============================ DELETED DATA =====================================
 export const deleteVendor = () => {

@@ -2,17 +2,17 @@ import Breadcrumb from '@/components/Breadcrumb'
 import TableBody from '@/components/TableBody'
 import TableHeader from '@/components/TableHeader'
 import TitlePage from '@/components/TitlePage'
-import { getDatas } from '@/lib/fetch'
-import { useEffect, useState } from 'react'
+import { getAllEmployeAction, responseApiEmploye } from '@/redux/admin/action'
+import { RootState } from '@/redux/store'
+import { useEffect } from 'react'
+import { useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 
-type employes = {
-   id: string | number,
-   name: string,
-   email: string
-}
+type employes = responseApiEmploye
 
 const EmployeesAll = () => {
-   const [employe, setEmploye] = useState<employes[]>([])
+   const dispatch = useDispatch()
+   const { employes } = useSelector((state: RootState) => state.admin)
    const columns: string[] = ["No", "Namae", "Email", "Aksi"]
 
    const handleEdit = (id: number | string) => {
@@ -24,15 +24,9 @@ const EmployeesAll = () => {
       }
    };
 
-   const handleGetEmployes = async () => {
-      const employe = await getDatas('admin/datasEmployee')
-
-      setEmploye(employe.data.data)
-   }
-
    useEffect(() => {
-      handleGetEmployes()
-   }, [])
+      dispatch(getAllEmployeAction())
+   }, [dispatch])
 
    const randerRowEmploye = (employe: employes, index: number) => (
       <>
@@ -53,22 +47,22 @@ const EmployeesAll = () => {
          <div className="container mx-auto p-6 max-w-6xl">
             <Breadcrumb items={breadcrumbItem} />
             <div className="bg-white shadow-lg rounded-xl overflow-hidden border border-gray-100">
-               {employe.length === 0 ? (
-                  <div className="p-6 text-center text-gray-500">
-                     <p className="text-lg">No employes found.</p>
-                     <p className="text-sm mt-2">Add a new user to get started!</p>
-                  </div>
-               ) : (
+               {Array.isArray(employes) && employes[0] ? (
                   <div className="overflow-x-auto">
                      <table className="w-full text-sm text-left text-gray-600">
                         <TableHeader columns={columns} />
                         <TableBody
-                           data={employe}
+                           data={employes}
                            renderRow={randerRowEmploye}
                            handleDelete={handleDelete}
                            handleEdit={handleEdit}
                         />
                      </table>
+                  </div>
+               ) : (
+                  <div className="p-6 text-center text-gray-500">
+                     <p className="text-lg">No managers found.</p>
+                     <p className="text-sm mt-2">Add a new user to get started!</p>
                   </div>
                )}
             </div>

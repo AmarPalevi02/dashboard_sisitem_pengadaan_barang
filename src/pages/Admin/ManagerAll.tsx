@@ -2,13 +2,13 @@ import Breadcrumb from '@/components/Breadcrumb';
 import TableBody from '@/components/TableBody';
 import TableHeader from '@/components/TableHeader';
 import TitlePage from '@/components/TitlePage'
-import { getAllManagerAction, responseApi } from '@/redux/admin/action';
+import { getAllManagerAction, responseApiManager } from '@/redux/admin/action';
 import { RootState } from '@/redux/store';
 import { useEffect } from 'react'
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 
-type Managers = responseApi;
+type Managers = responseApiManager;
 
 const ManagerAll = () => {
    const columns: string[] = ["No", "Namae", "Email", "Aksi"]
@@ -29,7 +29,6 @@ const ManagerAll = () => {
       dispatch(getAllManagerAction())
    }, [dispatch])
 
-   console.log(managers)
    const randerRowManager = (manager: Managers, index: number) => (
       <>
          <td className="px-6 py-4 font-medium text-gray-900">{index + 1}</td>

@@ -2,17 +2,17 @@ import Breadcrumb from "@/components/Breadcrumb"
 import TableBody from "@/components/TableBody"
 import TableHeader from "@/components/TableHeader"
 import TitlePage from "@/components/TitlePage"
-import { getDatas } from "@/lib/fetch"
-import { useEffect, useState } from "react"
+import {  getAllProcurementAction, responseApiProcurement } from "@/redux/admin/action"
+import { RootState } from "@/redux/store"
+import { useEffect} from "react"
+import { useSelector } from "react-redux"
+import { useDispatch } from "react-redux"
 
-type procurements = {
-   id: string | number,
-   name: string,
-   email: string
-}
+type procurements = responseApiProcurement
 
 const ProcurementsAll = () => {
-   const [procurement, setProcurement] = useState<procurements[]>([])
+   const dispatch = useDispatch()
+   const { procurements } = useSelector((state: RootState) => state.admin)
    const columns: string[] = ["No", "Namae", "Email", "Aksi"]
 
    const handleEdit = (id: number | string) => {
@@ -24,15 +24,9 @@ const ProcurementsAll = () => {
       }
    };
 
-   const handleGetDataProcurements = async () => {
-      const procurement = await getDatas('admin/datasprocurements')
-
-      setProcurement(procurement.data.data)
-   }
-
    useEffect(() => {
-      handleGetDataProcurements()
-   }, [])
+      dispatch(getAllProcurementAction())
+   }, [dispatch])
 
    const randeringRowProcurement = (procurement: procurements, index: number) => (
       <>
@@ -53,22 +47,22 @@ const ProcurementsAll = () => {
          <div className="container mx-auto p-6 max-w-6xl">
             <Breadcrumb items={breadcrumbProcurement} />
             <div className="bg-white shadow-lg rounded-xl overflow-hidden border border-gray-100">
-               {procurement.length === 0 ? (
-                  <div className="p-6 text-center text-gray-500">
-                     <p className="text-lg">No procurements found.</p>
-                     <p className="text-sm mt-2">Add a new user to get started!</p>
-                  </div>
-               ) : (
+               {Array.isArray(procurements) && procurements[0] ? (
                   <div className="overflow-x-auto">
                      <table className="w-full text-sm text-left text-gray-600">
                         <TableHeader columns={columns} />
                         <TableBody
-                           data={procurement}
+                           data={procurements}
                            renderRow={randeringRowProcurement}
                            handleDelete={handleDelete}
                            handleEdit={handleEdit}
                         />
                      </table>
+                  </div>
+               ) : (
+                  <div className="p-6 text-center text-gray-500">
+                     <p className="text-lg">No managers found.</p>
+                     <p className="text-sm mt-2">Add a new user to get started!</p>
                   </div>
                )}
             </div>

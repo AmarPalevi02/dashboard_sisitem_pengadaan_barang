@@ -29,6 +29,10 @@ export const GET_ALL_VENDOR = "redux/fetch/GET_ALL_VENDOR"
 export const GET_ALL_VENDOR_SUCCESS = "redux/fetch/GET_ALL_VENDOR_SUCCESS"
 export const GET_ALL_VENDOR_ERROR = "redux/fetch/GET_ALL_VENDOR_ERROR"
 
+export const GET_ALL_PROCUREMENT = "redux/fetch/GET_ALL_PROCUREMENT";
+export const GET_ALL_PROCUREMENT_SUCCESS = "redux/fetch/GET_ALL_PROCUREMENT_SUCCESS";
+export const GET_ALL_PROCUREMENT_ERROR = "redux/fetch/GET_ALL_PROCUREMENT_ERROR";
+
 // ========================== DELETED DATA ====================================
 export const DELETING_VENDOR = "redux/delete/DELETING_VENDOR";
 export const DELETE_VENDOR_SUCCESS = "redux/delete/DELETE_VENDOR_SUCCESS";

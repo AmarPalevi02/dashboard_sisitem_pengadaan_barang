@@ -2,26 +2,18 @@ import Breadcrumb from '@/components/Breadcrumb'
 import TableBody from '@/components/TableBody'
 import TableHeader from '@/components/TableHeader'
 import TitlePage from '@/components/TitlePage'
-import { deleteData, getDatas } from '@/lib/fetch'
-import { deleteVendorAction } from '@/redux/admin/action'
+import { deleteVendorAction, getAllVendorAction, responseApiVendor } from '@/redux/admin/action'
 import { RootState } from '@/redux/store'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { useDispatch } from 'react-redux'
 
-type Vendors = {
-   id: string | number,
-   name: string,
-   email: string,
-   phone: string,
-   address: string
-}
+type Vendors = responseApiVendor
 
 const VendorsAll = () => {
-   const [vendor, setVendor] = useState<Vendors[]>([])
    const dispatch = useDispatch()
-   const { deletedVendor } = useSelector((state: RootState) => state.admin)
-   
+   const { deletedVendor, vendors } = useSelector((state: RootState) => state.admin)
+
    const columns: string[] = ["No", "Namae", "Email", "phone", "address", "Aksi"]
 
    const handleEdit = (id: number | string) => {
@@ -33,15 +25,10 @@ const VendorsAll = () => {
    };
 
 
-   const handleGetVendors = async () => {
-      const vendor = await getDatas('admin/vendor')
-
-      setVendor(vendor.data.data)
-   }
 
    useEffect(() => {
-      handleGetVendors()
-   }, [])
+      dispatch(getAllVendorAction())
+   }, [dispatch, deletedVendor])
 
    const randerRowVendor = (vendor: Vendors, index: number) => (
       <>
@@ -68,22 +55,22 @@ const VendorsAll = () => {
          <div className="container mx-auto p-6 max-w-6xl">
             <Breadcrumb items={breadcrumbItems} />
             <div className="bg-white shadow-lg rounded-xl overflow-hidden border border-gray-100">
-               {vendor.length === 0 ? (
-                  <div className="p-6 text-center text-gray-500">
-                     <p className="text-lg">No vendors found.</p>
-                     <p className="text-sm mt-2">Add a new user to get started!</p>
-                  </div>
-               ) : (
+               {Array.isArray(vendors) && vendors[0] ? (
                   <div className="overflow-x-auto">
                      <table className="w-full text-sm text-left text-gray-600">
                         <TableHeader columns={columns} />
                         <TableBody
-                           data={vendor}
+                           data={vendors}
                            renderRow={randerRowVendor}
                            handleDelete={handleDelete}
                            handleEdit={handleEdit}
                         />
                      </table>
+                  </div>
+               ) : (
+                  <div className="p-6 text-center text-gray-500">
+                     <p className="text-lg">No managers found.</p>
+                     <p className="text-sm mt-2">Add a new user to get started!</p>
                   </div>
                )}
             </div>
