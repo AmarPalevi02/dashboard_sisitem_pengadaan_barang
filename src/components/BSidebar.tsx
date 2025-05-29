@@ -10,12 +10,21 @@ import { userLogout } from '@/redux/auth/actions'
 import { IoIosArrowForward } from "react-icons/io";
 import { fimaleLogo } from '@/assets'
 
-const BSidebar = () => {
+interface BSidebarProps {
+   onToggle: (isCollapsed: boolean) => void;
+}
+
+const BSidebar = ({ onToggle }: BSidebarProps) => {
    const navigate = useNavigate()
    const dispatch = useDispatch()
    const [collapsed, setCollapsed] = useState(false)
-   const toggleSidebar = () => setCollapsed(!collapsed)
    const { role, name } = useSelector((state: RootState) => state.auth)
+
+   const toggleSidebar = () => {
+      const newCollapsedState = !collapsed;
+      setCollapsed(newCollapsedState);
+      onToggle(newCollapsedState); 
+   }
 
    const isValidRole = (role: any): role is Role => {
       return ['ADMIN', 'MANAGER', 'PROCUREMENT', 'EMPLOYEE'].includes(role)
@@ -33,21 +42,21 @@ const BSidebar = () => {
 
    return (
       <div
-         className={`${collapsed ? 'w-20' : 'w-64'
-            } h-screen bg-white transition-all duration-300 flex flex-col relative`}
+         className={`fixed top-0 left-0 ${collapsed ? 'w-20' : 'w-64'
+            } h-screen bg-white transition-all duration-300 flex flex-col z-50 shadow-lg`}
       >
          {/* Header */}
          <div className="w-full flex justify-center pt-3">
             {collapsed ? (
                <div className="w-12 h-12 bg-gray-500 rounded-full">
-                  <img src={fimaleLogo} alt="" className='object-cover flex w-full rounded-full' />
+                  <img src={fimaleLogo} alt="Logo" className='object-cover flex w-full rounded-full' />
                </div>
             ) : (
                <div className="w-full flex flex-col justify-center items-center text-center">
                   <div className="w-16 h-16 bg-gray-500 rounded-full">
-                     <img src={fimaleLogo} alt="" className='object-cover flex w-full rounded-full' />
+                     <img src={fimaleLogo} alt="Logo" className='object-cover flex w-full rounded-full' />
                   </div>
-                  <span className="font-semibold w-full">Hello {name}</span>
+                  <span className="font-semibold w-full mt-2">Hello {name}</span>
                </div>
             )}
          </div>
@@ -55,15 +64,15 @@ const BSidebar = () => {
          <div className="flex items-center justify-between px-4 py-3">
             <button onClick={toggleSidebar}>
                {collapsed ?
-                  < IoIosArrowForward className="w-7 h-7 absolute top-6 right-[-15px] hover:cursor-pointer" />
+                  <IoIosArrowForward className="w-7 h-7 absolute top-6 right-[-15px] hover:cursor-pointer bg-white rounded-full shadow-md p-1" />
                   :
-                  < IoIosArrowForward className="w-7 h-7 absolute top-6 right-[-13px] rotate-180 hover:cursor-pointer" />
+                  <IoIosArrowForward className="w-7 h-7 absolute top-6 right-[-13px] rotate-180 hover:cursor-pointer bg-white rounded-full shadow-md p-1" />
                }
             </button>
          </div>
 
          {/* Menu */}
-         <nav className="flex-1 px-2 py-4 space-y-2">
+         <nav className="flex-1 px-2 py-4 space-y-2 overflow-y-auto">
             {menu.map((item) => (
                <a
                   key={item.label}
@@ -77,8 +86,8 @@ const BSidebar = () => {
          </nav>
 
          {/* Footer */}
-         <div className="px-4 py-3 ">
-            <button onClick={handleLogout} className="flex items-center gap-3 text-sm text-gray-700 hover:cursor-pointer">
+         <div className="px-4 py-3">
+            <button onClick={handleLogout} className="flex items-center gap-3 text-sm text-gray-700 hover:cursor-pointer hover:text-red-500">
                <LogOut className="w-5 h-5" />
                {!collapsed && <span>Logout</span>}
             </button>

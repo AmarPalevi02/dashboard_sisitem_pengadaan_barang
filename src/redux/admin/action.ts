@@ -26,6 +26,7 @@ import {
    GET_ALL_VENDOR,
    GET_ALL_VENDOR_SUCCESS,
    GET_ALL_VENDOR_ERROR,
+   RESET_DELETED_VENDOR,
 
 } from "./constans";
 import { deleteData, getDatas } from "@/lib/fetch";
@@ -61,6 +62,10 @@ export interface ApiResponse {
    data: responseApiManager[] | responseApiProcurement[] | responseApiEmploye[] | responseApiEmploye[]
 }
 
+
+export interface ApiResponseDeleted {
+   message: string
+}
 
 // ================================ FETCHING COUNT DATA =====================================
 export const statrFetchingCountManager = () => {
@@ -356,10 +361,10 @@ export const deleteVendor = () => {
    }
 }
 
-export const deleteVendorSuccess = ({ vendorId }: { vendorId: string | number }) => {
+export const deleteVendorSuccess = (message: string) => {
    return {
       type: DELETE_VENDOR_SUCCESS,
-      vendorId
+      deletedVendor: message
    }
 }
 
@@ -377,10 +382,14 @@ export const deleteVendorAction = (vendorId: string | number) => {
       try {
          const res = await deleteData(`admin/vendor/${vendorId}`)
          dispatch(
-            deleteVendorSuccess(res.data.message)
+            deleteVendorSuccess(res.data.data.message)
          )
       } catch (error: any) {
-         dispatch(deleteVendorError({ error: error.message || 'Failed to fetch managers' }))
+         dispatch(deleteVendorError({ error: error.message || 'Failed to deleted vendor' }))
       }
    }
 }
+
+export const resetDeletedVendor = () => ({
+   type: RESET_DELETED_VENDOR,
+});

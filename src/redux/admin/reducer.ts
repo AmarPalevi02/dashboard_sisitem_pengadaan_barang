@@ -1,4 +1,4 @@
-import { responseApiEmploye, responseApiManager, responseApiProcurement, responseApiVendor } from "./action";
+import { ApiResponseDeleted, responseApiEmploye, responseApiManager, responseApiProcurement, responseApiVendor } from "./action";
 import {
    FETCHING_COUNT_EMPLOYEE,
    FETCHING_COUNT_MANAGER,
@@ -26,7 +26,8 @@ import {
    GET_ALL_EMPLOYEE_ERROR,
    GET_ALL_VENDOR,
    GET_ALL_VENDOR_SUCCESS,
-   GET_ALL_VENDOR_ERROR
+   GET_ALL_VENDOR_ERROR,
+   RESET_DELETED_VENDOR
 } from "./constans";
 
 interface AdminState {
@@ -48,7 +49,7 @@ interface AdminState {
    vendorCount: number | null,
    isLoadingVendor: boolean,
    errorVendor: string | null,
-   deletedVendor: boolean,
+   deletedVendor: string | null,
    vendors: responseApiVendor[]
 }
 
@@ -71,7 +72,7 @@ const initialState: AdminState = {
    vendorCount: null,
    isLoadingVendor: false,
    errorVendor: null,
-   deletedVendor: false,
+   deletedVendor: null,
    vendors: []
 }
 
@@ -100,7 +101,7 @@ interface VendorAction {
    type: string,
    countVendor?: number,
    errorVendor?: string,
-   deletedVendor?: boolean,
+   deletedVendor?: string,
    vendors?: responseApiVendor[] | null
 }
 
@@ -281,6 +282,13 @@ export default function adminReducer(state = initialState, action: AdminAction) 
             isLoading: false,
             deletedVendor: false,
             errorVendor: (action as VendorAction).errorVendor ?? 'Failed to deleted vendor'
+         }
+      case RESET_DELETED_VENDOR:
+         return {
+            ...state,
+            isLoading: false,
+            deletedVendor: null,
+            errorVendor: null
          }
       default:
          return state

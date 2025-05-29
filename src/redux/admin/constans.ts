@@ -37,3 +37,4 @@ export const GET_ALL_PROCUREMENT_ERROR = "redux/fetch/GET_ALL_PROCUREMENT_ERROR"
 export const DELETING_VENDOR = "redux/delete/DELETING_VENDOR";
 export const DELETE_VENDOR_SUCCESS = "redux/delete/DELETE_VENDOR_SUCCESS";
 export const DELETE_VENDOR_ERROR = "redux/delete/DELETE_VENDOR_ERROR";
+export const RESET_DELETED_VENDOR = "redux/delete/RESET_DELETED_VENDOR"

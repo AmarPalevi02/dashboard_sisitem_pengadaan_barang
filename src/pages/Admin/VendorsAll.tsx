@@ -2,7 +2,8 @@ import Breadcrumb from '@/components/Breadcrumb'
 import TableBody from '@/components/TableBody'
 import TableHeader from '@/components/TableHeader'
 import TitlePage from '@/components/TitlePage'
-import { deleteVendorAction, getAllVendorAction, responseApiVendor } from '@/redux/admin/action'
+import { deleteVendorAction, getAllVendorAction, resetDeletedVendor, responseApiVendor } from '@/redux/admin/action'
+import { clearAlert, setAlert } from '@/redux/alert/actions'
 import { RootState } from '@/redux/store'
 import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
@@ -24,11 +25,18 @@ const VendorsAll = () => {
       dispatch(deleteVendorAction(id))
    };
 
-
-
    useEffect(() => {
       dispatch(getAllVendorAction())
+      // dispatch(clearAlert())
    }, [dispatch, deletedVendor])
+
+   useEffect(() => {
+      if (deletedVendor) {
+         dispatch(setAlert(`Behasil menghapus ${deletedVendor}`, 'success'));
+         dispatch(getAllVendorAction())
+         dispatch(resetDeletedVendor())
+      }
+   }, [deletedVendor, dispatch])
 
    const randerRowVendor = (vendor: Vendors, index: number) => (
       <>
@@ -44,10 +52,6 @@ const VendorsAll = () => {
       { label: 'Dashboard', link: '/dashboard/admin' },
       { label: 'Managers', link: '/dashboard/admin/vendors' },
    ];
-
-   useEffect(() => {
-
-   }, [])
 
    return (
       <div>

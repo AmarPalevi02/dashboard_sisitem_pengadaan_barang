@@ -1,8 +1,13 @@
 import { SET_ALERT, CLEAR_ALERT } from "./constans"
 
-const initialState = {
-   message: "",
-   alertType: "",
+interface AlertType {
+   message: string | null, 
+   alertType: "success" | "error" | "warning" | null
+}
+
+const initialState: AlertType = {
+   message: null,
+   alertType: null,
 };
 
 
@@ -17,8 +22,8 @@ export default function alertReducer(state = initialState, action: any) {
       case CLEAR_ALERT:
          return {
             ...state,
-            message: "",
-            alertType: "",
+            message: null,
+            alertType: null,
          };
       default:
          return state;
