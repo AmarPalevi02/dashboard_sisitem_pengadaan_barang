@@ -1,4 +1,9 @@
-import { ApiResponseDeleted, responseApiEmploye, responseApiManager, responseApiProcurement, responseApiVendor } from "./action";
+import {
+   responseApiEmploye,
+   responseApiManager,
+   responseApiProcurement,
+   responseApiVendor
+} from "./action";
 import {
    FETCHING_COUNT_EMPLOYEE,
    FETCHING_COUNT_MANAGER,
@@ -27,7 +32,11 @@ import {
    GET_ALL_VENDOR,
    GET_ALL_VENDOR_SUCCESS,
    GET_ALL_VENDOR_ERROR,
-   RESET_DELETED_VENDOR
+   RESET_DELETED_VENDOR,
+   DELETING_MANAGER,
+   DELETING_MANAGER_SUCCESS,
+   DELETING_MANAGER_ERROR,
+   RESET_DELETING_MANAGER
 } from "./constans";
 
 interface AdminState {
@@ -35,6 +44,7 @@ interface AdminState {
    isLoadingManager: boolean;
    errorManager: string | null;
    managers: responseApiManager[];
+   deletingmassage: string | null;
 
    procurmentCount: number | null;
    isLoadingProcurment: boolean;
@@ -58,6 +68,7 @@ const initialState: AdminState = {
    isLoadingManager: false,
    errorManager: null,
    managers: [],
+   deletingmassage: null,
 
    procurmentCount: null,
    isLoadingProcurment: false,
@@ -80,7 +91,8 @@ interface ManagerAction {
    type: string;
    countManager?: number;
    error?: string;
-   managers?: responseApiManager[] | null
+   managers?: responseApiManager[] | null,
+   deletingmassage?: string
 }
 
 interface ProcurementAction {
@@ -289,6 +301,31 @@ export default function adminReducer(state = initialState, action: AdminAction) 
             isLoading: false,
             deletedVendor: null,
             errorVendor: null
+         }
+      case DELETING_MANAGER:
+         return {
+            ...state,
+            isLoadingManager: true,
+            errorManager: null
+         }
+      case DELETING_MANAGER_ERROR:
+         return {
+            ...state,
+            isLoadingManager: false,
+            errorManager: (action as ManagerAction).error ?? 'Failed to deleted manager'
+         }
+      case DELETING_MANAGER_SUCCESS:
+         return {
+            ...state,
+            isLoadingManager: false,
+            deletingmassage: (action as ManagerAction).deletingmassage ?? null
+         }
+      case RESET_DELETING_MANAGER:
+         return {
+            ...state,
+            isLoadingManager: false,
+            deletingmassage: null,
+            errorManager: null
          }
       default:
          return state

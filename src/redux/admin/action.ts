@@ -27,6 +27,10 @@ import {
    GET_ALL_VENDOR_SUCCESS,
    GET_ALL_VENDOR_ERROR,
    RESET_DELETED_VENDOR,
+   DELETING_MANAGER,
+   DELETING_MANAGER_SUCCESS,
+   RESET_DELETING_MANAGER,
+   DELETING_MANAGER_ERROR,
 
 } from "./constans";
 import { deleteData, getDatas } from "@/lib/fetch";
@@ -393,3 +397,43 @@ export const deleteVendorAction = (vendorId: string | number) => {
 export const resetDeletedVendor = () => ({
    type: RESET_DELETED_VENDOR,
 });
+
+export const deletingManager = () => {
+   return {
+      type: DELETING_MANAGER
+   }
+}
+
+export const deletingManagerSuccess = (masage: string) => {
+   return {
+      type: DELETING_MANAGER_SUCCESS,
+      deletingmassage: masage
+   }
+}
+
+export const deletedManagerError = ({ error }: { error: string }) => {
+   return {
+      type: DELETING_MANAGER_ERROR,
+      error
+   }
+}
+
+export const deletingManagerAction = (manageId: string | number) => {
+   return async (dispatch: Dispatch) => {
+      dispatch(deletingManager())
+
+      try {
+         const res = await deleteData(`admin/${manageId}/delet`)
+
+         dispatch(deletingManagerSuccess(res.data.data.message))
+      } catch (error: any) {
+         dispatch(deletedManagerError({ error: error.message || 'Failed to deleted vendor' }))
+      }
+   }
+}
+
+export const resetDeletingManager = () => {
+   return {
+      type: RESET_DELETING_MANAGER
+   }
+}

@@ -2,7 +2,8 @@ import Breadcrumb from '@/components/Breadcrumb';
 import TableBody from '@/components/TableBody';
 import TableHeader from '@/components/TableHeader';
 import TitlePage from '@/components/TitlePage'
-import { getAllManagerAction, responseApiManager } from '@/redux/admin/action';
+import { deletingManagerAction, getAllManagerAction, resetDeletingManager, responseApiManager } from '@/redux/admin/action';
+import { setAlert } from '@/redux/alert/actions';
 import { RootState } from '@/redux/store';
 import { useEffect } from 'react'
 import { useSelector } from 'react-redux';
@@ -14,20 +15,27 @@ const ManagerAll = () => {
    const columns: string[] = ["No", "Namae", "Email", "Aksi"]
 
    const dispatch = useDispatch()
-   const { managers } = useSelector((state: RootState) => state.admin)
+   const { managers, deletingmassage } = useSelector((state: RootState) => state.admin)
 
    const handleEdit = (id: number | string) => {
       alert(`Edit user with ID: ${id}`);
    };
 
    const handleDelete = (id: number | string) => {
-      if (confirm('Are you sure you want to delete this user?')) {
-      }
+      dispatch(deletingManagerAction(id))
    };
 
    useEffect(() => {
       dispatch(getAllManagerAction())
-   }, [dispatch])
+   }, [dispatch, deletingmassage])
+
+   useEffect(() => {
+      if (deletingmassage) {
+         dispatch(setAlert(`${deletingmassage}`, 'success'))
+         dispatch(getAllManagerAction())
+         dispatch(resetDeletingManager())
+      }
+   }, [deletingmassage, dispatch])
 
    const randerRowManager = (manager: Managers, index: number) => (
       <>

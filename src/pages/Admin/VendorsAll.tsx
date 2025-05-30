@@ -3,7 +3,7 @@ import TableBody from '@/components/TableBody'
 import TableHeader from '@/components/TableHeader'
 import TitlePage from '@/components/TitlePage'
 import { deleteVendorAction, getAllVendorAction, resetDeletedVendor, responseApiVendor } from '@/redux/admin/action'
-import { clearAlert, setAlert } from '@/redux/alert/actions'
+import { setAlert } from '@/redux/alert/actions'
 import { RootState } from '@/redux/store'
 import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
@@ -27,7 +27,6 @@ const VendorsAll = () => {
 
    useEffect(() => {
       dispatch(getAllVendorAction())
-      // dispatch(clearAlert())
    }, [dispatch, deletedVendor])
 
    useEffect(() => {

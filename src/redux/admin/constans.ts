@@ -16,25 +16,40 @@ export const FETCHING_COUNT_VENDOR_SUCCESS = "redux/fetch/FETCHING_COUNT_VENDOR_
 export const FETCHING_COUNT_VENDOR_ERROR = "redux/fetch/FETCHING_COUNT_VENDOR_ERROR"
 
 // ========================= GET ALL DATAS ====================================
-export const GET_ALL_DATA_MANAGER = "redux/fetch/GET_ALL_DATA_MANAGER";
-export const GET_ALL_DATA_MANAGER_SUCCESS = "redux/fetch/GET_ALL_DATA_MANAGER_SUCCESS";
-export const GET_ALL_DATA_MANAGER_ERROR = "redux/fetch/GET_ALL_DATA_MANAGER_ERROR";
+export const GET_ALL_DATA_MANAGER = "redux/get/GET_ALL_DATA_MANAGER";
+export const GET_ALL_DATA_MANAGER_SUCCESS = "redux/get/GET_ALL_DATA_MANAGER_SUCCESS";
+export const GET_ALL_DATA_MANAGER_ERROR = "redux/get/GET_ALL_DATA_MANAGER_ERROR";
 
 
-export const GET_ALL_EMPLOYEE = "redux/fetch/GET_ALL_EMPLOYEE";
-export const GET_ALL_EMPLOYEE_SUCCESS = "redux/fetch/GET_ALL_EMPLOYEE_SUCCESS";
-export const GET_ALL_EMPLOYEE_ERROR = "redux/fetch/GET_ALL_EMPLOYEE_ERROR";
+export const GET_ALL_EMPLOYEE = "redux/get/GET_ALL_EMPLOYEE";
+export const GET_ALL_EMPLOYEE_SUCCESS = "redux/get/GET_ALL_EMPLOYEE_SUCCESS";
+export const GET_ALL_EMPLOYEE_ERROR = "redux/get/GET_ALL_EMPLOYEE_ERROR";
 
-export const GET_ALL_VENDOR = "redux/fetch/GET_ALL_VENDOR"
-export const GET_ALL_VENDOR_SUCCESS = "redux/fetch/GET_ALL_VENDOR_SUCCESS"
-export const GET_ALL_VENDOR_ERROR = "redux/fetch/GET_ALL_VENDOR_ERROR"
+export const GET_ALL_VENDOR = "redux/get/GET_ALL_VENDOR"
+export const GET_ALL_VENDOR_SUCCESS = "redux/get/GET_ALL_VENDOR_SUCCESS"
+export const GET_ALL_VENDOR_ERROR = "redux/get/GET_ALL_VENDOR_ERROR"
 
-export const GET_ALL_PROCUREMENT = "redux/fetch/GET_ALL_PROCUREMENT";
-export const GET_ALL_PROCUREMENT_SUCCESS = "redux/fetch/GET_ALL_PROCUREMENT_SUCCESS";
-export const GET_ALL_PROCUREMENT_ERROR = "redux/fetch/GET_ALL_PROCUREMENT_ERROR";
+export const GET_ALL_PROCUREMENT = "redux/get/GET_ALL_PROCUREMENT";
+export const GET_ALL_PROCUREMENT_SUCCESS = "redux/get/GET_ALL_PROCUREMENT_SUCCESS";
+export const GET_ALL_PROCUREMENT_ERROR = "redux/get/GET_ALL_PROCUREMENT_ERROR";
 
 // ========================== DELETED DATA ====================================
 export const DELETING_VENDOR = "redux/delete/DELETING_VENDOR";
 export const DELETE_VENDOR_SUCCESS = "redux/delete/DELETE_VENDOR_SUCCESS";
 export const DELETE_VENDOR_ERROR = "redux/delete/DELETE_VENDOR_ERROR";
 export const RESET_DELETED_VENDOR = "redux/delete/RESET_DELETED_VENDOR"
+
+export const DELETING_PROCUREMENT = "redux/delete/DELETING_PROCUREMENT";
+export const DELETING_PROCUREMENT_SUCCESS = "redux/delete/DELETING_PROCUREMENT_SUCCESS";
+export const DELETING_PROCUREMENT_ERROR = "redux/delete/DELETING_PROCUREMENT_ERROR";
+export const RESET_DELETING_PROCUREMENT = "redux/delete/RESET_DELETING_PROCUREMENT"
+
+export const DELETING_EMPLOYEE = "redux/delete/DELETING_EMPLOYEE";
+export const DELETING_EMPLOYEE_SUCCESS = "redux/delete/DELETING_EMPLOYEE_SUCCESS";
+export const DELETING_EMPLOYEE_ERROR = "redux/delete/DELETING_EMPLOYEE_ERROR";
+export const RESET_DELETING_EMPLOYEE = "redux/delete/RESET_EMPLOYEE"
+
+export const DELETING_MANAGER = "redux/delete/DELETING_MANAGER";
+export const DELETING_MANAGER_SUCCESS = "redux/delete/DELETING_MANAGER_SUCCESS";
+export const DELETING_MANAGER_ERROR = "redux/delete/DELETING_MANAGER_ERROR";
+export const RESET_DELETING_MANAGER = "redux/delete/RESERT_DELETING_MANAGER"
