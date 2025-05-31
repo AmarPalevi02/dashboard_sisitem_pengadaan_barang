@@ -20,7 +20,7 @@ export const menuConfigs: Record<Role, MenuItems[]> = {
       {
          label: "Tambah akun",
          icon: <FiUserPlus className="w-8 h-8 font-bold" />,
-         path: "/createacount"
+         path: "/dashboard/admin/createacount"
       }
    ],
    MANAGER: [

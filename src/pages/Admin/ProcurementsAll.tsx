@@ -2,9 +2,10 @@ import Breadcrumb from "@/components/Breadcrumb"
 import TableBody from "@/components/TableBody"
 import TableHeader from "@/components/TableHeader"
 import TitlePage from "@/components/TitlePage"
-import {  getAllProcurementAction, responseApiProcurement } from "@/redux/admin/action"
+import { deletingProcurementAction, getAllProcurementAction, resetDeletingProcurement, responseApiProcurement } from "@/redux/admin/action"
+import { setAlert } from "@/redux/alert/actions"
 import { RootState } from "@/redux/store"
-import { useEffect} from "react"
+import { useEffect } from "react"
 import { useSelector } from "react-redux"
 import { useDispatch } from "react-redux"
 
@@ -12,7 +13,7 @@ type procurements = responseApiProcurement
 
 const ProcurementsAll = () => {
    const dispatch = useDispatch()
-   const { procurements } = useSelector((state: RootState) => state.admin)
+   const { procurements, deletingmessageprocurement } = useSelector((state: RootState) => state.admin)
    const columns: string[] = ["No", "Namae", "Email", "Aksi"]
 
    const handleEdit = (id: number | string) => {
@@ -20,13 +21,21 @@ const ProcurementsAll = () => {
    };
 
    const handleDelete = (id: number | string) => {
-      if (confirm('Are you sure you want to delete this user?')) {
-      }
+      dispatch(deletingProcurementAction(id))
    };
 
    useEffect(() => {
       dispatch(getAllProcurementAction())
-   }, [dispatch])
+   }, [dispatch, deletingmessageprocurement])
+
+
+   useEffect(() => {
+      if (deletingmessageprocurement) {
+         dispatch(setAlert(`${deletingmessageprocurement}`, 'success'))
+         dispatch(getAllProcurementAction())
+         dispatch(resetDeletingProcurement())
+      }
+   }, [deletingmessageprocurement, dispatch])
 
    const randeringRowProcurement = (procurement: procurements, index: number) => (
       <>

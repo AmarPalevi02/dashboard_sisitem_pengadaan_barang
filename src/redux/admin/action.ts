@@ -31,6 +31,13 @@ import {
    DELETING_MANAGER_SUCCESS,
    RESET_DELETING_MANAGER,
    DELETING_MANAGER_ERROR,
+   DELETING_PROCUREMENT,
+   DELETING_PROCUREMENT_SUCCESS,
+   DELETING_PROCUREMENT_ERROR,
+   RESET_DELETING_PROCUREMENT,
+   DELETING_EMPLOYEE,
+   DELETING_EMPLOYEE_SUCCESS,
+   RESET_DELETING_EMPLOYEE,
 
 } from "./constans";
 import { deleteData, getDatas } from "@/lib/fetch";
@@ -435,5 +442,85 @@ export const deletingManagerAction = (manageId: string | number) => {
 export const resetDeletingManager = () => {
    return {
       type: RESET_DELETING_MANAGER
+   }
+}
+
+export const deletingProcurement = () => {
+   return {
+      type: DELETING_PROCUREMENT
+   }
+}
+
+export const deletingProcuremnetSuccess = (deletingmessageprocurement: string) => {
+   return {
+      type: DELETING_PROCUREMENT_SUCCESS,
+      deletingmessageprocurement: deletingmessageprocurement
+   }
+}
+
+export const deletingProcurementErorr = ({ error }: { error: string }) => {
+   return {
+      type: DELETING_PROCUREMENT_ERROR,
+      error
+   }
+}
+
+export const deletingProcurementAction = (procurementId: string | number) => {
+   return async (dispatch: Dispatch) => {
+      dispatch(deletingProcurement())
+
+      try {
+         const res = await deleteData(`admin/${procurementId}/delet`)
+
+         dispatch(deletingProcuremnetSuccess(res.data.data.message))
+      } catch (error: any) {
+         dispatch(deletingProcurementErorr({ error: error.message || 'Failed to deleted procurement' }))
+      }
+   }
+}
+
+export const resetDeletingProcurement = () => {
+   return {
+      type: RESET_DELETING_PROCUREMENT
+   }
+}
+
+export const deletingEmploye = () => {
+   return {
+      type: DELETING_EMPLOYEE
+   }
+}
+
+export const deletingEmployeSuccess = (deletingmassageemploye: string) => {
+   return {
+      type: DELETING_EMPLOYEE_SUCCESS,
+      deletingmassageemploye: deletingmassageemploye
+   }
+}
+
+export const deletingEmployeError = ({ error }: { error: string }) => {
+   return {
+      type: DELETING_MANAGER_ERROR,
+      error
+   }
+}
+
+export const deletingEmployeAction = (employeId: string | number) => {
+   return async (dispatch: Dispatch) => {
+      dispatch(deletingEmploye())
+
+      try {
+         const res = await deleteData(`admin/${employeId}/delet`)
+
+         dispatch(deletingEmployeSuccess(res.data.data.message))
+      } catch (error: any) {
+         dispatch(deletingEmployeError({ error: error.message || 'Failed to deleted procurement' }))
+      }
+   }
+}
+
+export const resetDeletingEmploye = () => {
+   return {
+      type: RESET_DELETING_EMPLOYEE
    }
 }

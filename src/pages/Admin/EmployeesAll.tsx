@@ -2,7 +2,8 @@ import Breadcrumb from '@/components/Breadcrumb'
 import TableBody from '@/components/TableBody'
 import TableHeader from '@/components/TableHeader'
 import TitlePage from '@/components/TitlePage'
-import { getAllEmployeAction, responseApiEmploye } from '@/redux/admin/action'
+import { deletingEmployeAction, getAllEmployeAction, resetDeletingEmploye, responseApiEmploye } from '@/redux/admin/action'
+import { setAlert } from '@/redux/alert/actions'
 import { RootState } from '@/redux/store'
 import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
@@ -12,7 +13,7 @@ type employes = responseApiEmploye
 
 const EmployeesAll = () => {
    const dispatch = useDispatch()
-   const { employes } = useSelector((state: RootState) => state.admin)
+   const { employes, deletingmassageemploye } = useSelector((state: RootState) => state.admin)
    const columns: string[] = ["No", "Namae", "Email", "Aksi"]
 
    const handleEdit = (id: number | string) => {
@@ -20,13 +21,20 @@ const EmployeesAll = () => {
    };
 
    const handleDelete = (id: number | string) => {
-      if (confirm('Are you sure you want to delete this user?')) {
-      }
+      dispatch(deletingEmployeAction(id))
    };
 
    useEffect(() => {
       dispatch(getAllEmployeAction())
-   }, [dispatch])
+   }, [dispatch, deletingmassageemploye])
+
+   useEffect(() => {
+      if (deletingmassageemploye) {
+         dispatch(setAlert(`${deletingmassageemploye}`, 'success'))
+         dispatch(getAllEmployeAction())
+         dispatch(resetDeletingEmploye())
+      }
+   }, [deletingmassageemploye, dispatch])
 
    const randerRowEmploye = (employe: employes, index: number) => (
       <>

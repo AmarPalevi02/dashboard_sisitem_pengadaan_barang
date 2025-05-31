@@ -36,7 +36,15 @@ import {
    DELETING_MANAGER,
    DELETING_MANAGER_SUCCESS,
    DELETING_MANAGER_ERROR,
-   RESET_DELETING_MANAGER
+   RESET_DELETING_MANAGER,
+   DELETING_PROCUREMENT,
+   DELETING_PROCUREMENT_SUCCESS,
+   DELETING_PROCUREMENT_ERROR,
+   RESET_DELETING_PROCUREMENT,
+   DELETING_EMPLOYEE,
+   DELETING_EMPLOYEE_SUCCESS,
+   DELETING_EMPLOYEE_ERROR,
+   RESET_DELETING_EMPLOYEE
 } from "./constans";
 
 interface AdminState {
@@ -50,11 +58,13 @@ interface AdminState {
    isLoadingProcurment: boolean;
    errorProcurment: string | null;
    procurements: responseApiProcurement[];
+   deletingmessageprocurement: string | null;
 
    employeeCount: number | null;
    isLoadingEmployee: boolean;
    errorEmployee: string | null;
-   employes: responseApiEmploye[]
+   employes: responseApiEmploye[];
+   deletingmassageemploye: string | null
 
    vendorCount: number | null,
    isLoadingVendor: boolean,
@@ -74,11 +84,13 @@ const initialState: AdminState = {
    isLoadingProcurment: false,
    errorProcurment: null,
    procurements: [],
+   deletingmessageprocurement: null,
 
    employeeCount: null,
    isLoadingEmployee: false,
    errorEmployee: null,
    employes: [],
+   deletingmassageemploye: null,
 
    vendorCount: null,
    isLoadingVendor: false,
@@ -99,14 +111,16 @@ interface ProcurementAction {
    type: string,
    countProcurement?: number,
    errorProcurment?: string,
-   procurements?: responseApiProcurement[]
+   procurements?: responseApiProcurement[],
+   deletingmessageprocurement?: string
 }
 
 interface EmployeeActon {
    type: string,
    countEmployee?: number,
    errorEmployee?: string,
-   employes?: responseApiEmploye[] | null
+   employes?: responseApiEmploye[] | null,
+   deletingmassageemploye?: string
 }
 
 interface VendorAction {
@@ -326,6 +340,57 @@ export default function adminReducer(state = initialState, action: AdminAction) 
             isLoadingManager: false,
             deletingmassage: null,
             errorManager: null
+         }
+      case DELETING_PROCUREMENT:
+         return {
+            ...state,
+            isLoadingProcurment: true,
+            errorProcurment: null
+         }
+      case DELETING_PROCUREMENT_SUCCESS:
+         return {
+            ...state,
+            isLoadingProcurment: false,
+            deletingmessageprocurement: (action as ProcurementAction).deletingmessageprocurement ?? null
+         }
+      case DELETING_PROCUREMENT_ERROR:
+         return {
+            ...state,
+            isLoadingProcurment: false,
+            errorProcurment: (action as ProcurementAction).errorProcurment ?? 'Failed to deleted procurement'
+         }
+      case RESET_DELETING_PROCUREMENT:
+         return {
+            ...state,
+            isLoadingProcurment: false,
+            deletingmessageprocurement: null,
+            errorProcurment: null
+         }
+      case DELETING_EMPLOYEE:
+         return {
+            ...state,
+            isLoadingEmployee: true,
+            errorEmployee: null
+         }
+      case DELETING_EMPLOYEE_SUCCESS:
+         return {
+            ...state,
+            isLoadingEmployee: false,
+            deletingmassageemploye: (action as EmployeeActon).deletingmassageemploye ?? null,
+            errorEmployee: null
+         }
+      case DELETING_EMPLOYEE_ERROR:
+         return {
+            ...state,
+            isLoadingEmployee: false,
+            errorEmployee: (action as EmployeeActon).errorEmployee ?? 'Failed to deleted procurement'
+         }
+      case RESET_DELETING_EMPLOYEE:
+         return {
+            ...state,
+            isLoadingEmployee: false,
+            deletingmassageemploye: null,
+            errorEmployee: null
          }
       default:
          return state
