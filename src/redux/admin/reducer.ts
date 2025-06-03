@@ -44,7 +44,10 @@ import {
    DELETING_EMPLOYEE,
    DELETING_EMPLOYEE_SUCCESS,
    DELETING_EMPLOYEE_ERROR,
-   RESET_DELETING_EMPLOYEE
+   RESET_DELETING_EMPLOYEE,
+   CREATE_USER,
+   CREATE_USER_SUCCESS,
+   CREATE_USER_ERROR,
 } from "./constans";
 
 interface AdminState {
@@ -71,6 +74,10 @@ interface AdminState {
    errorVendor: string | null,
    deletedVendor: string | null,
    vendors: responseApiVendor[]
+
+   loadingCretaeUser: boolean,
+   createUser: any | null;
+   errorCreateUser: string | null;
 }
 
 const initialState: AdminState = {
@@ -96,7 +103,11 @@ const initialState: AdminState = {
    isLoadingVendor: false,
    errorVendor: null,
    deletedVendor: null,
-   vendors: []
+   vendors: [],
+
+   loadingCretaeUser: false,
+   createUser: null,
+   errorCreateUser: null
 }
 
 interface ManagerAction {
@@ -131,7 +142,14 @@ interface VendorAction {
    vendors?: responseApiVendor[] | null
 }
 
-type AdminAction = ManagerAction | ProcurementAction | EmployeeActon | VendorAction
+interface CreateUserAction {
+   type: string;
+   loading: boolean;
+   user: any | null;
+   error: string | null;
+}
+
+type AdminAction = ManagerAction | ProcurementAction | EmployeeActon | VendorAction | CreateUserAction
 
 export default function adminReducer(state = initialState, action: AdminAction) {
    switch (action.type) {
@@ -391,6 +409,26 @@ export default function adminReducer(state = initialState, action: AdminAction) 
             isLoadingEmployee: false,
             deletingmassageemploye: null,
             errorEmployee: null
+         }
+      // ==================== create User ========================
+      case CREATE_USER:
+         return {
+            ...state,
+            loadingCretaeUser: true,
+            errorCreateUser: null
+         }
+      case CREATE_USER_SUCCESS: {
+         return {
+            ...state,
+            loadingCretaeUser: false,
+            createUser: (action as CreateUserAction).user ?? null
+         }
+      }
+      case CREATE_USER_ERROR:
+         return {
+            ...state,
+            loadingCretaeUser: false,
+            errorCreateUser: (action as CreateUserAction).error || 'Failed to create user'
          }
       default:
          return state

@@ -53,3 +53,8 @@ export const DELETING_MANAGER = "redux/delete/DELETING_MANAGER";
 export const DELETING_MANAGER_SUCCESS = "redux/delete/DELETING_MANAGER_SUCCESS";
 export const DELETING_MANAGER_ERROR = "redux/delete/DELETING_MANAGER_ERROR";
 export const RESET_DELETING_MANAGER = "redux/delete/RESERT_DELETING_MANAGER"
+
+// ====================== Create User =====================================
+export const CREATE_USER = "redux/post/CREATE_USER"
+export const CREATE_USER_SUCCESS = "redux/post/CREATE_USER_SUCCESS"
+export const CREATE_USER_ERROR = "redux/creatpost/CREATE_USER_ERROR"

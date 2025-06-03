@@ -38,9 +38,12 @@ import {
    DELETING_EMPLOYEE,
    DELETING_EMPLOYEE_SUCCESS,
    RESET_DELETING_EMPLOYEE,
+   CREATE_USER,
+   CREATE_USER_SUCCESS,
+   CREATE_USER_ERROR,
 
 } from "./constans";
-import { deleteData, getDatas } from "@/lib/fetch";
+import { deleteData, getDatas, postData } from "@/lib/fetch";
 import { Dispatch } from 'redux';
 
 export type responseApiManager = {
@@ -522,5 +525,39 @@ export const deletingEmployeAction = (employeId: string | number) => {
 export const resetDeletingEmploye = () => {
    return {
       type: RESET_DELETING_EMPLOYEE
+   }
+}
+
+// =================== Post Data ==========================
+export const createUser = () => {
+   return {
+      type: CREATE_USER
+   }
+}
+
+export const createUserSucces = (payload: Record<string, any>) => {
+   return {
+      type: CREATE_USER_SUCCESS,
+      payload
+   }
+}
+
+export const createUserError = ({ error }: { error: string }) => {
+   return {
+      type: CREATE_USER_ERROR,
+      error
+   }
+}
+
+export const createUserAction = (url: string, payload: Record<string, any>) => {
+   return async (dispatch: Dispatch) => {
+      dispatch(createUser())
+
+      try {
+         const res = await postData(url, payload)
+         dispatch(createUserSucces(res.data))
+      } catch (error: any) {
+         dispatch(createUserError({ error: error.message || 'Failed to create user' }));
+      }
    }
 }

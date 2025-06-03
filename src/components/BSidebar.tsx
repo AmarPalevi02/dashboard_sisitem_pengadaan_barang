@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { LogOut } from 'lucide-react'
 import { useSelector } from 'react-redux'
 import { RootState } from '@/redux/store'
@@ -23,7 +23,7 @@ const BSidebar = ({ onToggle }: BSidebarProps) => {
    const toggleSidebar = () => {
       const newCollapsedState = !collapsed;
       setCollapsed(newCollapsedState);
-      onToggle(newCollapsedState); 
+      onToggle(newCollapsedState);
    }
 
    const isValidRole = (role: any): role is Role => {
