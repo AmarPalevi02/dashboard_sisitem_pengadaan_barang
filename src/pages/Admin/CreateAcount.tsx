@@ -42,7 +42,10 @@ const CreateAcount = () => {
       <div>
          <TitlePage title='Buat Akun Karyawan' />
          <div className="mt-6">
-            <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 px-6">
+            <form
+               onSubmit={handleSubmit(onSubmit)}
+               className="space-y-6 px-6"
+            >
                <div className="space-y-2">
                   <Label htmlFor="name">Name</Label>
                   <Input
