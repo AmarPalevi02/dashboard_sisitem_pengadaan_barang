@@ -38,6 +38,7 @@ const BSidebar = ({ onToggle }: BSidebarProps) => {
       Cookies.remove("role")
       dispatch(userLogout())
       navigate('/signin')
+      dispatch(userLogout())
    }
 
    return (

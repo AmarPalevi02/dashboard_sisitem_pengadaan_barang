@@ -1,5 +1,6 @@
 import AdminLayout from "@/pages/Admin/AdminLayout";
 import CreateAcount from "@/pages/Admin/CreateAcount";
+import CreateVendor from "@/pages/Admin/CreateVendor";
 import DashboardAdmin from "@/pages/Admin/DashboardAdmin";
 import EmployeesAll from "@/pages/Admin/EmployeesAll";
 import ManagerAll from "@/pages/Admin/ManagerAll";
@@ -17,6 +18,7 @@ const RoutesAdmin = () => {
             <Route path="/employees" element={<EmployeesAll />} />
             <Route path="/vendors" element={<VendorsAll />} />
             <Route path="/createacount" element={<CreateAcount />} />
+            <Route path="/createvendor" element={<CreateVendor />} />
          </Route>
       </Routes>
    )

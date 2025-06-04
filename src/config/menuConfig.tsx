@@ -1,6 +1,7 @@
 import { LuLayoutDashboard } from "react-icons/lu";
 import { FiUserPlus } from "react-icons/fi";
 import { MdOutlineDownloadDone } from "react-icons/md";
+import { FaBoxOpen } from "react-icons/fa6";
 
 export type MenuItems = {
    label: string
@@ -21,6 +22,11 @@ export const menuConfigs: Record<Role, MenuItems[]> = {
          label: "Tambah akun",
          icon: <FiUserPlus className="w-8 h-8 font-bold" />,
          path: "/dashboard/admin/createacount"
+      },
+      {
+         label: "Tambah Vendor",
+         icon: <FaBoxOpen className="w-8 h-8 font-bold" />,
+         path: "/dashboard/admin/createvendor"
       }
    ],
    MANAGER: [

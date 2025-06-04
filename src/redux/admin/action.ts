@@ -41,6 +41,9 @@ import {
    CREATE_USER,
    CREATE_USER_SUCCESS,
    CREATE_USER_ERROR,
+   CREATE_VENDOR,
+   CREATE_VENDOR_SUCCESS,
+   CREATE_VENDOR_ERROR,
 
 } from "./constans";
 import { deleteData, getDatas, postData } from "@/lib/fetch";
@@ -558,6 +561,40 @@ export const createUserAction = (url: string, payload: Record<string, any>) => {
          dispatch(createUserSucces(res.data))
       } catch (error: any) {
          dispatch(createUserError({ error: error.message || 'Failed to create user' }));
+      }
+   }
+}
+
+export const createVendor = () => {
+   return {
+      type: CREATE_VENDOR
+   }
+}
+
+export const createVendorSuccess = (payload: Record<string, any>) => {
+   return {
+      type: CREATE_VENDOR_SUCCESS,
+      payload
+   }
+}
+
+export const createVendorError = ({ error }: { error: string }) => {
+   return {
+      type: CREATE_VENDOR_ERROR,
+      error
+   }
+}
+
+export const createVendorAction = (url: string, payload: Record<string, any>) => {
+   return async (dispatch: Dispatch) => {
+      dispatch(createVendor())
+
+      try {
+         const res = await postData(url, payload)
+
+         dispatch(createVendorSuccess(res.data))
+      } catch (error: any) {
+         dispatch(createVendorError({ error: error.message || 'Failed to create vendor' }))
       }
    }
 }

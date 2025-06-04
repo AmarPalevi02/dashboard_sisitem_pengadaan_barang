@@ -48,6 +48,9 @@ import {
    CREATE_USER,
    CREATE_USER_SUCCESS,
    CREATE_USER_ERROR,
+   CREATE_VENDOR,
+   CREATE_VENDOR_SUCCESS,
+   CREATE_VENDOR_ERROR,
 } from "./constans";
 
 interface AdminState {
@@ -73,7 +76,11 @@ interface AdminState {
    isLoadingVendor: boolean,
    errorVendor: string | null,
    deletedVendor: string | null,
-   vendors: responseApiVendor[]
+   vendors: responseApiVendor[],
+
+   isloadingCreateVendor: boolean,
+   errorCreateVendor: string | null,
+   createVendor: any | null
 
    loadingCretaeUser: boolean,
    createUser: any | null;
@@ -107,7 +114,11 @@ const initialState: AdminState = {
 
    loadingCretaeUser: false,
    createUser: null,
-   errorCreateUser: null
+   errorCreateUser: null,
+
+   isloadingCreateVendor: false,
+   errorCreateVendor: null,
+   createVendor: null
 }
 
 interface ManagerAction {
@@ -142,14 +153,21 @@ interface VendorAction {
    vendors?: responseApiVendor[] | null
 }
 
-interface CreateUserAction {
+interface CreateType {
    type: string;
    loading: boolean;
-   user: any | null;
    error: string | null;
 }
 
-type AdminAction = ManagerAction | ProcurementAction | EmployeeActon | VendorAction | CreateUserAction
+interface CreateUserAction extends CreateType {
+   user: any | null;
+}
+
+interface CreateVendorAction extends CreateType {
+   vendor: any | null;
+}
+
+type AdminAction = ManagerAction | ProcurementAction | EmployeeActon | VendorAction | CreateUserAction | CreateVendorAction
 
 export default function adminReducer(state = initialState, action: AdminAction) {
    switch (action.type) {
@@ -429,6 +447,25 @@ export default function adminReducer(state = initialState, action: AdminAction) 
             ...state,
             loadingCretaeUser: false,
             errorCreateUser: (action as CreateUserAction).error || 'Failed to create user'
+         }
+      case CREATE_VENDOR:
+         return {
+            ...state,
+            isloadingCreateVendor: true,
+            errorCreateVendor: null,
+            createVendor: null
+         }
+      case CREATE_VENDOR_SUCCESS:
+         return {
+            ...state,
+            isloadingCreateVendor: false,
+            createVendor: (action as CreateVendorAction).vendor ?? null
+         }
+      case CREATE_VENDOR_ERROR:
+         return {
+            ...state,
+            isloadingCreateVendor: false,
+            errorCreateVendor: (action as CreateVendorAction).error || 'Failed to create vendor'
          }
       default:
          return state

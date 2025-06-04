@@ -58,3 +58,7 @@ export const RESET_DELETING_MANAGER = "redux/delete/RESERT_DELETING_MANAGER"
 export const CREATE_USER = "redux/post/CREATE_USER"
 export const CREATE_USER_SUCCESS = "redux/post/CREATE_USER_SUCCESS"
 export const CREATE_USER_ERROR = "redux/creatpost/CREATE_USER_ERROR"
+
+export const CREATE_VENDOR = "redux/post/CREATE_VENDOR"
+export const CREATE_VENDOR_SUCCESS = "redux/post/CREATE_VENDOR_SUCCESS"
+export const CREATE_VENDOR_ERROR = "redux/post/CREATE_VENDOR_ERROR"
