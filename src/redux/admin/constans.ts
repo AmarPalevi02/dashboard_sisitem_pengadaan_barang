@@ -62,3 +62,8 @@ export const CREATE_USER_ERROR = "redux/creatpost/CREATE_USER_ERROR"
 export const CREATE_VENDOR = "redux/post/CREATE_VENDOR"
 export const CREATE_VENDOR_SUCCESS = "redux/post/CREATE_VENDOR_SUCCESS"
 export const CREATE_VENDOR_ERROR = "redux/post/CREATE_VENDOR_ERROR"
+
+// ===================== get one data ===================================
+export const FETCH_ONE_VENDOR = "redux/get/FETCH_ONE_VENDOR"
+export const FETCH_ONE_VENDOR_SUCCESS = "redux/get/FETCH_ONE_VENDOR_SUCCESS"
+export const FETCH_ONE_VENDOR_ERROR = "redux/get/FETCH_ONE_VENDOR_ERROR"

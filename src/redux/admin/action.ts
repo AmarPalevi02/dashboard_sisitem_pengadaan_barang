@@ -44,6 +44,9 @@ import {
    CREATE_VENDOR,
    CREATE_VENDOR_SUCCESS,
    CREATE_VENDOR_ERROR,
+   FETCH_ONE_VENDOR,
+   FETCH_ONE_VENDOR_SUCCESS,
+   FETCH_ONE_VENDOR_ERROR,
 
 } from "./constans";
 import { deleteData, getDatas, postData } from "@/lib/fetch";
@@ -595,6 +598,41 @@ export const createVendorAction = (url: string, payload: Record<string, any>) =>
          dispatch(createVendorSuccess(res.data))
       } catch (error: any) {
          dispatch(createVendorError({ error: error.message || 'Failed to create vendor' }))
+      }
+   }
+}
+
+// ========================== fetch one data =================================
+export const fetchOneVendor = () => {
+   return {
+      type: FETCH_ONE_VENDOR
+   }
+}
+
+export const fetchOneVendorSuccess = (respone: responseApiVendor) => {
+   return {
+      type: FETCH_ONE_VENDOR_SUCCESS,
+      vendor: respone
+   }
+}
+
+export const fetchOneVendorError = ({ error }: { error: string }) => {
+   return {
+      type: FETCH_ONE_VENDOR_ERROR,
+      error
+   }
+}
+
+export const fetchOneVendorAction = (vendorId: string | number) => {
+   return async (dispatch: Dispatch) => {
+      dispatch(fetchOneVendor())
+
+      try {
+         const res = await getDatas(`admin/vendor/get/${vendorId}`)
+
+         dispatch(fetchOneVendorSuccess(res.data.data))
+      } catch (error: any) {
+         dispatch(fetchOneVendorError({ error: error.message || 'Failed to get one vendor' }))
       }
    }
 }

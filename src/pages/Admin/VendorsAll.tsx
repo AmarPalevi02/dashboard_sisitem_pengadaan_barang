@@ -2,23 +2,26 @@ import Breadcrumb from '@/components/Breadcrumb'
 import TableBody from '@/components/TableBody'
 import TableHeader from '@/components/TableHeader'
 import TitlePage from '@/components/TitlePage'
-import { deleteVendorAction, getAllVendorAction, resetDeletedVendor, responseApiVendor } from '@/redux/admin/action'
+import { deleteVendorAction, fetchOneVendorAction, getAllVendorAction, resetDeletedVendor, responseApiVendor } from '@/redux/admin/action'
 import { setAlert } from '@/redux/alert/actions'
 import { RootState } from '@/redux/store'
 import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { useDispatch } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 
 type Vendors = responseApiVendor
 
 const VendorsAll = () => {
    const dispatch = useDispatch()
-   const { deletedVendor, vendors } = useSelector((state: RootState) => state.admin)
+   const navigate = useNavigate()
+   const { deletedVendor, vendors, vendor } = useSelector((state: RootState) => state.admin)
 
    const columns: string[] = ["No", "Namae", "Email", "phone", "address", "Aksi"]
 
    const handleEdit = (id: number | string) => {
-      alert(`Edit user with ID: ${id}`);
+      dispatch(fetchOneVendorAction(id))
+      navigate(`/dashboard/admin/vendor/edit/${id}`)
    };
 
    const handleDelete = (id: number | string) => {
@@ -27,6 +30,7 @@ const VendorsAll = () => {
 
    useEffect(() => {
       dispatch(getAllVendorAction())
+
    }, [dispatch, deletedVendor])
 
    useEffect(() => {
@@ -49,7 +53,7 @@ const VendorsAll = () => {
 
    const breadcrumbItems = [
       { label: 'Dashboard', link: '/dashboard/admin' },
-      { label: 'Managers', link: '/dashboard/admin/vendors' },
+      { label: 'Vendor', link: '/dashboard/admin/vendors' },
    ];
 
    return (

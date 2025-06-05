@@ -11,6 +11,7 @@ export const getDatas = async (url: string) => {
             Authorization: `Bearer ${token}`
          }
       })
+
       return response
    } catch (error) {
       throw handleApiError(error)
