@@ -54,6 +54,7 @@ import {
    FETCH_ONE_VENDOR,
    FETCH_ONE_VENDOR_SUCCESS,
    FETCH_ONE_VENDOR_ERROR,
+   PUT_VENDOR,
 } from "./constans";
 
 interface AdminState {
@@ -80,7 +81,8 @@ interface AdminState {
    errorVendor: string | null,
    deletedVendor: string | null,
    vendors: responseApiVendor[],
-   vendor: responseApiVendor[]
+   vendor: responseApiVendor | null
+   putVendor: responseApiVendor | null
 
    isloadingCreateVendor: boolean,
    errorCreateVendor: string | null,
@@ -115,7 +117,8 @@ const initialState: AdminState = {
    errorVendor: null,
    deletedVendor: null,
    vendors: [],
-   vendor: [],
+   vendor: null,
+   putVendor: null,
 
    loadingCretaeUser: false,
    createUser: null,
@@ -156,7 +159,8 @@ interface VendorAction {
    errorVendor?: string,
    deletedVendor?: string,
    vendors?: responseApiVendor[] | null,
-   vendor?: responseApiVendor[] | null
+   vendor?: responseApiVendor | null,
+   putVendor: responseApiVendor | null
 }
 
 interface CreateType {
@@ -491,6 +495,27 @@ export default function adminReducer(state = initialState, action: AdminAction) 
             ...state,
             isLoadingVendor: false,
             errorVendor: (action as VendorAction).errorVendor || 'Failed to get one vendor'
+         }
+
+      // ============================== put data ==========================================
+      case PUT_VENDOR:
+         return {
+            ...state,
+            isLoadingVendor: true,
+            errorCreateVendor: null,
+            putVendor: null
+         }
+      case CREATE_VENDOR_SUCCESS:
+         return {
+            ...state,
+            isLoadingVendor: false,
+            putVendor: (action as VendorAction).putVendor ?? null
+         }
+      case CREATE_VENDOR_ERROR:
+         return {
+            ...state,
+            isLoadingVendor: false,
+            errorVendor: (action as VendorAction).errorVendor || 'Failed to create vendor'
          }
       default:
          return state

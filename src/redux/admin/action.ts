@@ -47,9 +47,12 @@ import {
    FETCH_ONE_VENDOR,
    FETCH_ONE_VENDOR_SUCCESS,
    FETCH_ONE_VENDOR_ERROR,
+   PUT_VENDOR,
+   PUT_VENDOR_SUCCESS,
+   PUT_VENDOR_ERROR,
 
 } from "./constans";
-import { deleteData, getDatas, postData } from "@/lib/fetch";
+import { deleteData, getDatas, postData, putData } from "@/lib/fetch";
 import { Dispatch } from 'redux';
 
 export type responseApiManager = {
@@ -71,7 +74,7 @@ export type responseApiEmploye = {
 }
 
 export type responseApiVendor = {
-   id: string;
+   id?: string;
    name: string;
    email: string;
    phone: string;
@@ -633,6 +636,41 @@ export const fetchOneVendorAction = (vendorId: string | number) => {
          dispatch(fetchOneVendorSuccess(res.data.data))
       } catch (error: any) {
          dispatch(fetchOneVendorError({ error: error.message || 'Failed to get one vendor' }))
+      }
+   }
+}
+
+// ========================== Edit Data ============================================
+export const putVendor = () => {
+   return {
+      type: PUT_VENDOR
+   }
+}
+
+export const putVendorSuccess = (payload: Record<string, any>) => {
+   return {
+      type: PUT_VENDOR_SUCCESS,
+      payload
+   }
+}
+
+export const putVendorError = ({ error }: { error: string }) => {
+   return {
+      type: PUT_VENDOR_ERROR,
+      error
+   }
+}
+
+export const putVendorAction = (url: string, payload: Record<string, any>) => {
+   return async (dispatch: Dispatch) => {
+      dispatch(putVendor())
+
+      try {
+         const res = await putData(url, payload)
+
+         dispatch(putVendorSuccess(res.data))
+      } catch (error: any) {
+         dispatch(putVendorError({ error: error.message || 'Failed to get one vendor' }))
       }
    }
 }

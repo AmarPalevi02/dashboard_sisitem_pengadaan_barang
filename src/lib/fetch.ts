@@ -53,3 +53,24 @@ export const deleteData = async (url: string) => {
       throw handleApiError(error)
    }
 }
+
+export const putData = async (
+   url: string,
+   payload: Record<string, any> | FormData,
+   formData: boolean = false
+) => {
+   const token = Cookies.get("token")
+
+   try {
+      const response = await axios.put(`${configs.base_url}/${url}`, payload, {
+         headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': formData ? 'multipart/form-data' : 'application/json',
+         }
+      })
+
+      return response
+   } catch (error) {
+      throw handleApiError(error)
+   }
+}

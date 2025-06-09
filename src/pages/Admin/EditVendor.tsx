@@ -3,13 +3,13 @@ import TitlePage from '@/components/TitlePage'
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { fetchOneVendorAction } from '@/redux/admin/action';
+import { fetchOneVendorAction, putVendorAction } from '@/redux/admin/action';
 import { RootState } from '@/redux/store';
 import { useEffect } from 'react';
-import { useForm } from 'react-hook-form';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 interface VendorFormData {
    name: string;
@@ -21,9 +21,10 @@ interface VendorFormData {
 const EditVendor = () => {
    const { id } = useParams<{ id: string }>();
    const dispatch = useDispatch()
-   const { vendor } = useSelector((state: RootState) => state.admin)
+   const navigate = useNavigate()
+   const { vendor, isLoadingVendor, errorVendor } = useSelector((state: RootState) => state.admin) as any;
 
-   const { register, handleSubmit, setValue, formState: { errors } } = useForm<VendorFormData>({
+   const { register, handleSubmit, setValue, formState: { errors }, reset } = useForm<VendorFormData>({
       defaultValues: {
          name: '',
          email: '',
@@ -32,12 +33,29 @@ const EditVendor = () => {
       },
    });
 
+   const onSubmit: SubmitHandler<VendorFormData> = async (data) => {
+      try {
+         await dispatch(putVendorAction(`admin/vendor/edit/${id}`, data))
+         reset()
+         navigate('/dashboard/admin/vendors')
+      } catch (error) {
+
+      }
+   }
 
    useEffect(() => {
-
-
       dispatch(fetchOneVendorAction(`${id}`))
-   }, [])
+   }, [dispatch])
+
+   useEffect(() => {
+      if (vendor != null) {
+         setValue('name', vendor.name);
+         setValue('email', vendor.email);
+         setValue('phone', vendor.phone);
+         setValue('address', vendor.address);
+      }
+   }, [vendor, setValue])
+
 
    const breadcrumbItems = [
       { label: 'Dashboard', link: '/dashboard/admin' },
@@ -45,14 +63,6 @@ const EditVendor = () => {
       { label: 'Edit', link: '/dashboard/admin/vendors' },
    ];
 
-   console.log(vendor.id)
-   console.log(vendor.name)
-
-   setValue('name', vendor.name || '');
-   setValue('email', vendor.email || '');
-   setValue('phone', vendor.phone || '');
-   setValue('address', vendor.address || '');
-   // console.log(id)
    return (
       <div>
          <TitlePage title='Edit Vendor' />
@@ -60,7 +70,7 @@ const EditVendor = () => {
             <Breadcrumb items={breadcrumbItems} />
 
             <form
-               // onSubmit={handleSubmit(onSubmit)}
+               onSubmit={handleSubmit(onSubmit)}
                className="space-y-6 px-6"
             >
                <div className="space-y-2">
@@ -72,7 +82,7 @@ const EditVendor = () => {
                      placeholder="Enter name vendor (PT JAYA ABADI)"
 
                   />
-                  {/* {errors.name && <p className="text-red-500 text-sm">{errors.name.message}</p>} */}
+                  {errors.name && <p className="text-red-500 text-sm">{errors.name.message}</p>}
                </div>
 
                <div className="space-y-2">
@@ -80,14 +90,14 @@ const EditVendor = () => {
                   <Input
                      id="email"
                      type="email"
-                  {...register('email', {
-                     required: 'Email is required',
-                     pattern: {
-                        value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-                        message: 'Invalid email address',
-                     },
-                  })}
-                  placeholder="Enter email"
+                     {...register('email', {
+                        required: 'Email is required',
+                        pattern: {
+                           value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+                           message: 'Invalid email address',
+                        },
+                     })}
+                     placeholder="Enter email"
                   />
                   {errors.email && <p className="text-red-500 text-sm">{errors.email.message}</p>}
                </div>
@@ -97,8 +107,8 @@ const EditVendor = () => {
                   <Input
                      id="name"
                      type="text"
-                  {...register('phone', { required: 'phone is required' })}
-                  placeholder="Enter phone"
+                     {...register('phone', { required: 'phone is required' })}
+                     placeholder="Enter phone"
                   />
                   {errors.phone && <p className="text-red-500 text-sm">{errors.phone.message}</p>}
                </div>
@@ -108,22 +118,22 @@ const EditVendor = () => {
                   <Input
                      id="name"
                      type="text"
-                  {...register('address', { required: 'Alamat is required' })}
-                  placeholder="Enter Alamat"
+                     {...register('address', { required: 'Alamat is required' })}
+                     placeholder="Enter Alamat"
                   />
                   {errors.address && <p className="text-red-500 text-sm">{errors.address.message}</p>}
                </div>
 
-               {/* {error && <p className="text-red-500 text-sm">{error}</p>} */}
+               {errorVendor && <p className="text-red-500 text-sm">{errorVendor}</p>}
                {vendor && <p className="text-green-500 text-sm">User created successfully!</p>}
 
                <Button
                   type="submit"
-                  // disabled={loading}
+                  disabled={isLoadingVendor}
                   className="w-full"
                   variant={'outline'}
                >
-                  {/* {loading ? 'Creating...' : 'Create User'} */}
+                  {isLoadingVendor ? 'Creating...' : 'Create User'}
                </Button>
             </form>
          </div>
