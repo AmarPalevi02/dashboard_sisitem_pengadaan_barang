@@ -1,4 +1,6 @@
+import { type } from 'os';
 import {
+   responseAccountUser,
    responseApiEmploye,
    responseApiManager,
    responseApiProcurement,
@@ -55,9 +57,16 @@ import {
    FETCH_ONE_VENDOR_SUCCESS,
    FETCH_ONE_VENDOR_ERROR,
    PUT_VENDOR,
+   FETCH_USER,
+   FETCH_USER_SUCCESS,
+   FETCH_USER_ERROR,
 } from "./constans";
 
 interface AdminState {
+   user: responseAccountUser | null,
+   isLoadingUser: boolean,
+   isErrorUser: string | null
+
    managerCount: number | null;
    isLoadingManager: boolean;
    errorManager: string | null;
@@ -94,6 +103,10 @@ interface AdminState {
 }
 
 const initialState: AdminState = {
+   user: null,
+   isLoadingUser: false,
+   isErrorUser: null,
+
    managerCount: null,
    isLoadingManager: false,
    errorManager: null,
@@ -153,6 +166,12 @@ interface EmployeeActon {
    deletingmassageemploye?: string
 }
 
+interface UserAction {
+   type: string,
+   user: responseAccountUser | null,
+   isErrorUser: string | null
+}
+
 interface VendorAction {
    type: string,
    countVendor?: number,
@@ -177,7 +196,7 @@ interface CreateVendorAction extends CreateType {
    vendor: any | null;
 }
 
-type AdminAction = ManagerAction | ProcurementAction | EmployeeActon | VendorAction | CreateUserAction | CreateVendorAction
+type AdminAction = ManagerAction | UserAction | ProcurementAction | EmployeeActon | VendorAction | CreateUserAction | CreateVendorAction
 
 export default function adminReducer(state = initialState, action: AdminAction) {
    switch (action.type) {
@@ -495,6 +514,24 @@ export default function adminReducer(state = initialState, action: AdminAction) 
             ...state,
             isLoadingVendor: false,
             errorVendor: (action as VendorAction).errorVendor || 'Failed to get one vendor'
+         }
+      case FETCH_USER:
+         return {
+            ...state,
+            isLoadingUser: true,
+            isErrorUser: null
+         }
+      case FETCH_USER_SUCCESS:
+         return {
+            ...state,
+            isLoadingUser: false,
+            user: (action as UserAction).user ?? null
+         }
+      case FETCH_USER_ERROR:
+         return {
+            ...state,
+            isLoadingUser: true,
+            isErrorUser: (action as UserAction).isErrorUser || 'Failed to get one user'
          }
 
       // ============================== put data ==========================================

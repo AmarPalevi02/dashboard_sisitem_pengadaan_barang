@@ -2,6 +2,7 @@ import AdminLayout from "@/pages/Admin/AdminLayout";
 import CreateAcount from "@/pages/Admin/CreateAcount";
 import CreateVendor from "@/pages/Admin/CreateVendor";
 import DashboardAdmin from "@/pages/Admin/DashboardAdmin";
+import EditAccountManager from "@/pages/Admin/EditAccountManager";
 import EditVendor from "@/pages/Admin/EditVendor";
 import EmployeesAll from "@/pages/Admin/EmployeesAll";
 import ManagerAll from "@/pages/Admin/ManagerAll";
@@ -21,6 +22,7 @@ const RoutesAdmin = () => {
             <Route path="/createacount" element={<CreateAcount />} />
             <Route path="/createvendor" element={<CreateVendor />} />
             <Route path="/vendor/edit/:id" element={<EditVendor />} />
+            <Route path="/manager/edit/:id" element={<EditAccountManager />} />
          </Route>
       </Routes>
    )

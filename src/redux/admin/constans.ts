@@ -68,7 +68,15 @@ export const FETCH_ONE_VENDOR = "redux/get/FETCH_ONE_VENDOR"
 export const FETCH_ONE_VENDOR_SUCCESS = "redux/get/FETCH_ONE_VENDOR_SUCCESS"
 export const FETCH_ONE_VENDOR_ERROR = "redux/get/FETCH_ONE_VENDOR_ERROR"
 
+export const FETCH_USER = "redux/get/FETCH_USER"
+export const FETCH_USER_SUCCESS = "redux/get/FETCH_USER_SUCCESS"
+export const FETCH_USER_ERROR = "redux/get/FETCH_USER_ERROR"
+
 // ==================== edit data =======================================
 export const PUT_VENDOR = "redux/put/PUT_VENDOR"
 export const PUT_VENDOR_SUCCESS = "redux/put/PUT_VENDOR_SUCCESS"
 export const PUT_VENDOR_ERROR = "redux/put/PUT_VENDOR_ERROR"
+
+export const PUT_USER = "redux/put/PUT_USER"
+export const PUT_USER_SUCCESS = "redux/put/PUT_USER_SUCCESS"
+export const PUT_USER_ERROR = "redux/put/PUT_USER_ERROR"

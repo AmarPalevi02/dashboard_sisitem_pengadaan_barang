@@ -10,12 +10,18 @@ import { useSelector } from 'react-redux'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 
-type Vendors = responseApiVendor
+type Vendorss = {
+   id: string
+   name: string,
+   email: string,
+   phone: string,
+   address: string
+}
 
 const VendorsAll = () => {
    const dispatch = useDispatch()
    const navigate = useNavigate()
-   const { deletedVendor, vendors, vendor } = useSelector((state: RootState) => state.admin)
+   const { deletedVendor, vendors } = useSelector((state: RootState) => state.admin)
 
    const columns: string[] = ["No", "Namae", "Email", "phone", "address", "Aksi"]
 
@@ -41,7 +47,7 @@ const VendorsAll = () => {
       }
    }, [deletedVendor, dispatch])
 
-   const randerRowVendor = (vendor: Vendors, index: number) => (
+   const randerRowVendor = (vendor: Vendorss, index: number) => (
       <>
          <td className="px-6 py-4 font-medium text-gray-900">{index + 1}</td>
          <td className="px-6 py-4">{vendor.name}</td>

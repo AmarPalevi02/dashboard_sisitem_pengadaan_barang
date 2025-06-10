@@ -2,23 +2,25 @@ import Breadcrumb from '@/components/Breadcrumb';
 import TableBody from '@/components/TableBody';
 import TableHeader from '@/components/TableHeader';
 import TitlePage from '@/components/TitlePage'
-import { deletingManagerAction, getAllManagerAction, resetDeletingManager, responseApiManager } from '@/redux/admin/action';
+import { deletingManagerAction, fetchUserAction, getAllManagerAction, resetDeletingManager, responseApiManager } from '@/redux/admin/action';
 import { setAlert } from '@/redux/alert/actions';
 import { RootState } from '@/redux/store';
 import { useEffect } from 'react'
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 type Managers = responseApiManager;
 
 const ManagerAll = () => {
    const columns: string[] = ["No", "Namae", "Email", "Aksi"]
-
+   const navigate = useNavigate()
    const dispatch = useDispatch()
    const { managers, deletingmassage } = useSelector((state: RootState) => state.admin)
 
-   const handleEdit = (id: number | string) => {
-      alert(`Edit user with ID: ${id}`);
+   const handleEdit = (userId: number | string) => {
+      dispatch(fetchUserAction(`${userId}`))
+      navigate(`/dashboard/admin/manager/edit/${userId}`)
    };
 
    const handleDelete = (id: number | string) => {

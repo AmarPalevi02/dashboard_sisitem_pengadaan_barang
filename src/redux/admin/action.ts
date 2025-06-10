@@ -50,6 +50,12 @@ import {
    PUT_VENDOR,
    PUT_VENDOR_SUCCESS,
    PUT_VENDOR_ERROR,
+   PUT_USER,
+   PUT_USER_SUCCESS,
+   PUT_USER_ERROR,
+   FETCH_USER,
+   FETCH_USER_SUCCESS,
+   FETCH_USER_ERROR,
 
 } from "./constans";
 import { deleteData, getDatas, postData, putData } from "@/lib/fetch";
@@ -79,6 +85,13 @@ export type responseApiVendor = {
    email: string;
    phone: string;
    address: string
+}
+
+export type responseAccountUser = {
+   id?: string,
+   name: string,
+   password: string,
+   role: string
 }
 
 export interface ApiResponse {
@@ -640,6 +653,40 @@ export const fetchOneVendorAction = (vendorId: string | number) => {
    }
 }
 
+export const fetchOneUser = () => {
+   return {
+      type: FETCH_USER
+   }
+}
+
+export const fetchOneUserSuccess = (response: responseAccountUser) => {
+   return {
+      type: FETCH_USER_SUCCESS,
+      payload: response
+   }
+}
+
+export const fetchOneUserError = ({ error }: { error: string }) => {
+   return {
+      type: FETCH_USER_ERROR,
+      error
+   }
+}
+
+export const fetchUserAction = (userId: string) => {
+   return async (dispatch: Dispatch) => {
+      dispatch(fetchOneUser())
+
+      try {
+         const res = await getDatas(`admin/get/user/${userId}`)
+
+         dispatch(fetchOneUserSuccess(res.data.data))
+      } catch (error: any) {
+         dispatch(fetchOneUserError({ error: error.message || 'Failed to get one vendor' }))
+      }
+   }
+}
+
 // ========================== Edit Data ============================================
 export const putVendor = () => {
    return {
@@ -671,6 +718,40 @@ export const putVendorAction = (url: string, payload: Record<string, any>) => {
          dispatch(putVendorSuccess(res.data))
       } catch (error: any) {
          dispatch(putVendorError({ error: error.message || 'Failed to get one vendor' }))
+      }
+   }
+}
+
+export const putUser = () => {
+   return {
+      type: PUT_USER
+   }
+}
+
+export const putUserSuccess = (payload: Record<string, any>) => {
+   return {
+      type: PUT_USER_SUCCESS,
+      payload
+   }
+}
+
+export const putUserError = ({ error }: { error: string }) => {
+   return {
+      type: PUT_USER_ERROR,
+      error
+   }
+}
+
+export const putUserAction = (url: string, payload: Record<string, any>) => {
+   return async (dispatch: Dispatch) => {
+      dispatch(putUser())
+
+      try {
+         const res = await putData(url, payload)
+
+         dispatch(putUserSuccess(res.data))
+      } catch (error: any) {
+         dispatch(putUserError({ error: error.message || 'Failed to get one user' }))
       }
    }
 }
