@@ -90,6 +90,7 @@ export type responseApiVendor = {
 export type responseAccountUser = {
    id?: string,
    name: string,
+   email: string,
    password: string,
    role: string
 }
@@ -662,7 +663,7 @@ export const fetchOneUser = () => {
 export const fetchOneUserSuccess = (response: responseAccountUser) => {
    return {
       type: FETCH_USER_SUCCESS,
-      payload: response
+      user: response
    }
 }
 
