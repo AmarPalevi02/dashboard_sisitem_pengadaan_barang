@@ -2,22 +2,25 @@ import Breadcrumb from '@/components/Breadcrumb'
 import TableBody from '@/components/TableBody'
 import TableHeader from '@/components/TableHeader'
 import TitlePage from '@/components/TitlePage'
-import { deletingEmployeAction, getAllEmployeAction, resetDeletingEmploye, responseApiEmploye } from '@/redux/admin/action'
+import { deletingEmployeAction, fetchUserAction, getAllEmployeAction, resetDeletingEmploye, responseApiEmploye } from '@/redux/admin/action'
 import { setAlert } from '@/redux/alert/actions'
 import { RootState } from '@/redux/store'
 import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { useDispatch } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 
 type employes = responseApiEmploye
 
 const EmployeesAll = () => {
    const dispatch = useDispatch()
+   const navigate = useNavigate()
    const { employes, deletingmassageemploye } = useSelector((state: RootState) => state.admin)
    const columns: string[] = ["No", "Namae", "Email", "Aksi"]
 
-   const handleEdit = (id: number | string) => {
-      alert(`Edit user with ID: ${id}`);
+   const handleEdit = (userId: number | string) => {
+      dispatch(fetchUserAction(`${userId}`))
+      navigate(`/dashboard/admin/employee/edit/${userId}`)
    };
 
    const handleDelete = (id: number | string) => {

@@ -2,22 +2,25 @@ import Breadcrumb from "@/components/Breadcrumb"
 import TableBody from "@/components/TableBody"
 import TableHeader from "@/components/TableHeader"
 import TitlePage from "@/components/TitlePage"
-import { deletingProcurementAction, getAllProcurementAction, resetDeletingProcurement, responseApiProcurement } from "@/redux/admin/action"
+import { deletingProcurementAction, fetchUserAction, getAllProcurementAction, resetDeletingProcurement, responseApiProcurement } from "@/redux/admin/action"
 import { setAlert } from "@/redux/alert/actions"
 import { RootState } from "@/redux/store"
 import { useEffect } from "react"
 import { useSelector } from "react-redux"
 import { useDispatch } from "react-redux"
+import { useNavigate } from "react-router-dom"
 
 type procurements = responseApiProcurement
 
 const ProcurementsAll = () => {
    const dispatch = useDispatch()
+   const navigate = useNavigate()
    const { procurements, deletingmessageprocurement } = useSelector((state: RootState) => state.admin)
    const columns: string[] = ["No", "Namae", "Email", "Aksi"]
 
-   const handleEdit = (id: number | string) => {
-      alert(`Edit user with ID: ${id}`);
+   const handleEdit = (userId: string | number) => {
+      dispatch(fetchUserAction(`${userId}`))
+      navigate(`/dashboard/admin/procurement/edit/${userId}`)
    };
 
    const handleDelete = (id: number | string) => {

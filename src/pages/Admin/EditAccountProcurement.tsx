@@ -1,17 +1,16 @@
-import Breadcrumb from "@/components/Breadcrumb"
-import TitlePage from "@/components/TitlePage"
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { fetchUserAction, putUserAction } from "@/redux/admin/action";
-import { RootState } from "@/redux/store";
-import { Select } from "@radix-ui/react-select";
-import { useEffect } from "react";
-import { SubmitHandler, useForm } from "react-hook-form";
-import { useSelector } from "react-redux";
-import { useDispatch } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
+import Breadcrumb from '@/components/Breadcrumb'
+import TitlePage from '@/components/TitlePage'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import { fetchUserAction, putUserAction } from '@/redux/admin/action'
+import { RootState } from '@/redux/store'
+import { useEffect } from 'react'
+import { SubmitHandler, useForm } from 'react-hook-form'
+import { useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
+import { useNavigate, useParams } from 'react-router-dom'
 
 type UserInput = {
    id?: string,
@@ -21,7 +20,7 @@ type UserInput = {
    role: string
 }
 
-const EditAccountManager = () => {
+const EditAccountProcurement = () => {
    const dispatch = useDispatch()
    const { id } = useParams()
    const navigate = useNavigate()
@@ -36,6 +35,16 @@ const EditAccountManager = () => {
       },
    });
 
+   const onSubmit: SubmitHandler<UserInput> = async (payload) => {
+      try {
+         await dispatch(putUserAction(`admin/update/${id}`, payload))
+         reset()
+         navigate('/dashboard/admin/procurements')
+      } catch (error) {
+
+      }
+   }
+
    useEffect(() => {
       if (user) {
          setValue('name', user.name)
@@ -44,15 +53,6 @@ const EditAccountManager = () => {
       }
    }, [user, setValue])
 
-   const onSubmit: SubmitHandler<UserInput> = async (payload) => {
-      try {
-         await dispatch(putUserAction(`admin/update/${id}`, payload))
-         reset()
-         navigate('/dashboard/admin/managers')
-      } catch (error) {
-
-      }
-   }
 
    useEffect(() => {
       dispatch(fetchUserAction(`${id}`))
@@ -60,9 +60,10 @@ const EditAccountManager = () => {
 
    const breadcrumbItems = [
       { label: 'Dashboard', link: '/dashboard/admin' },
-      { label: 'Managers', link: '/dashboard/admin/managers' },
-      { label: 'Edit', link: '/dashboard/admin/managers' },
-   ];
+      { label: 'Procurement', link: '/dashboard/admin/procurements' },
+      { label: 'Edit', link: '/dashboard/admin/procurements' }
+   ]
+
    return (
       <div>
          <TitlePage title='Edit Manager' />
@@ -147,4 +148,4 @@ const EditAccountManager = () => {
    )
 }
 
-export default EditAccountManager
+export default EditAccountProcurement

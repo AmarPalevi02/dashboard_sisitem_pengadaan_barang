@@ -103,7 +103,7 @@ const CreateVendor = () => {
                   className="w-full"
                   variant={'outline'}
                >
-                  {loading ? 'Creating...' : 'Create User'}
+                  {loading ? 'Creating...' : 'Create Vendor'}
                </Button>
             </form>
          </div>
